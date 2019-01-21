@@ -2,7 +2,7 @@
 
 ### Welcome!
 
-![alt tag](./images/panda logo.png)
+<img src="/images/panda logo.png" alt="image credit: Ivy Oswald " align="right" width="300" hight="400">
 
 #### This is my repo for my 4th year dissertation project at the University of Edinburgh. This repo currently functions as a place to store and back up my work. Once the dissertaion is complete the repo will be made public and will hold the final dissertaion, code, and materials used. 
 
@@ -18,5 +18,3 @@ My workflow can be view in the [projects](https://github.com/CameronCosgrove/Red
 
 More info on the project will eventually be found on my [website](https://cameroncosgrove.github.io/)
 
-![alt tag](./images/red-panda-1030885_1920.jpg)
-photo credit: shutterstock
