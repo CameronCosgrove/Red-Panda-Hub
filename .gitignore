@@ -1,3 +1,6 @@
+# Mac files
+.DS_Store
+
 # History files
 .Rhistory
 .Rapp.history
@@ -17,7 +20,6 @@
 # RStudio files
 .Rproj.user/
 Red-Panda-Hub.Rproj
-
 
 # produced vignettes
 vignettes/*.html
