@@ -8,7 +8,7 @@
 
 Repository structure:
 
-- [Draft dissertaion sections.](./dissertaion_sections)
+- [Draft dissertaion sections.](./dissertation_sections)
 - [Google Earth Engine code and files.](./google_earth_engine)
 - [R code (models, data manipulation, data visulisation)](./R)
 - [Images](./images)
