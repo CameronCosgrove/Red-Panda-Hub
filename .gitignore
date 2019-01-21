@@ -18,6 +18,7 @@
 .Rproj.user/
 Red-Panda-Hub.Rproj
 
+
 # produced vignettes
 vignettes/*.html
 vignettes/*.pdf
