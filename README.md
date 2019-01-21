@@ -16,5 +16,5 @@ Repository structure:
 
 My workflow can be view in the [projects](https://github.com/CameronCosgrove/Red-Panda-Hub/projects) section.
 
-More info on the project will eventually be found on my [website](https://cameroncosgrove.github.io/)
+More info on the project will eventually be found on my [website](https://cameroncosgrove.github.io/).
 
