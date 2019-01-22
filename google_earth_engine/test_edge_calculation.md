@@ -14,4 +14,4 @@ var edge = canny.multiply(ee.Image.pixelArea())
 ```
 
 
-![alt text](/images/edge_test)
+![alt text](/images/edge_test.png)
