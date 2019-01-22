@@ -1,10 +1,11 @@
 # History files
 .Rhistory
 .Rapp.history
+Icon
 
 # Session Data files
 .RData
-
+.DS_Store
 # Example code in package build process
 *-Ex.R
 
@@ -16,7 +17,9 @@
 
 # RStudio files
 .Rproj.user/
+/.Rproj
 Red-Panda-Hub.Rproj
+
 
 
 # produced vignettes
@@ -37,3 +40,5 @@ vignettes/*.pdf
 # Shiny token, see https://shiny.rstudio.com/articles/shinyapps.html
 rsconnect/
 .Rproj.user
+
+
