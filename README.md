@@ -14,7 +14,9 @@ Repository structure:
 - [Images](./images)
 
 
-My workflow can be view in the [projects](https://github.com/CameronCosgrove/Red-Panda-Hub/projects) section.
+#### My proposed workflow:
+
+![workflow](./images/workflow_feb.png)
 
 More info on the project will eventually be found on my [website](https://cameroncosgrove.github.io/).
 
