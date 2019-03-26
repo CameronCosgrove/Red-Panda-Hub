@@ -26,8 +26,16 @@ Justification of methods
 
 Explict methods 
 - Forest cover calculation
-- Fragmentation details 
-- Land cover classification 
+A reletive measure is needed to easily compare areas. Aggregate loss every year relative to 2000 forest cover 
+
+
+
+Forest gain is only measured up to 2013. Give an aggregate loss:gain ratio for 2000 - 2013 to indicate level of net change distubance. Not much land abandoment I think in this region. 
+
+Percentage regrowth is also needed to interpreate results. Regrowth would happen for natraul area distubance from 2000 to ~2005. This can be interpretaded as the amound of loss which is natural. This would assume that all human disturbance was permanent. (Is this needed? If forest is losted, no matter if it regrows, it still counts as loss of suitable habitat for red pandas from 2000-2018.)
+
+
+- Fragmentation details  
 - What can be resonably inferred about actual on the ground change?
 ### Data Analysis 
 
