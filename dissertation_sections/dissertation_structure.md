@@ -1,14 +1,17 @@
-## Front Page
+# Front Page
+### Quantifying habitat change of the red panda (_Ailurus Fulgens_)
 
-## Summary 
+# Summary 
+Habitat loss has consitently been identified as the largest threat facing the red panda. Red pandas are also particualry subscptable to habitat fragmentaion due to their arboreal lifestyle and low dispersal capabilities. For the first time, this dissertaion quantifies the extent of habitat loss and fragmentation accross the red pandas entire range. My results estimate an area of XXX km2 of forest habitat has been lost since 2000 - 2018. The XXX area and the YYY area show the most pronouced forest loss. Rates of forest loss are incresing/decreasing/country-dependant. No countires show a net increase in forest from 2000 - 2012 in red panda habitat. Protected areas sufficently/insufficnetly protect forest. As of 2000, the forest network in red panda habitat was fragmented into X isolated populations. The conservation implications of this work are... 
 
-## Contents Page
 
-## Acknowledgements
+# Contents Page
 
-## Abbreviations 
+# Acknowledgements
 
-## Intro 
+# Abbreviations 
+
+# Intro 
 
 - Fragmentaion and landuse change are large drivers of global ecosystem change
 - Community responses are complex but indivdual responses can be inferred more simply 
