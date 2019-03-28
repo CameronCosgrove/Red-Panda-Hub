@@ -6,32 +6,55 @@ Habitat loss has consistently been identified as the largest threat facing the r
 
 
 # Contents Page
-### 1. Introduction 
+Summary
+Table of contents
+Acknowledgements
+List of abbreviations
+
+#### 1. Introduction 
 - #### 1.1 Red panda ecology
 - #### 1.2 Threats and current conservation efforts 
 - #### 1.3 Project Rationale 
 - #### 1.4 Research questions and hypotheses
+
+#### 2. Methods
+* #### 2.1 Defining the study area
+* #### 2.2 Data collection 
+    * #### Global Forest Change Dataset
+    * #### Red Panda MaxEnt distrubution 
+* #### 2.3 Data processing
+    * #### Forest Change 
+    * #### Fragmentation
+* #### 2.4 Data analysis
+
+#### 3. Results 
+* #### How forest cover has changed in predicted red panda habitat forom 2000-2018
+* #### Key areas of habitat loss
+* #### Identification of distinct sub populations 
+
 # Acknowledgements
+I would like to thank.. 
 
 # Abbreviations 
 GGE - Google Earth Engine 
 
 # Intro 
-
+### 1.1 Red panda ecology
+### 1.2 Threats and current conservation efforts 
+### 1.3 Project Rationale 
+### 1.4 Research questions and hypotheses
 - Fragmentaion and landuse change are large drivers of global ecosystem change
 - Community responses are complex but indivdual responses can be inferred more simply 
 - Red Panda ecology make them particularly supceptable to bad impact of fragmentation and habitat loss 
 - Remote sensing can be used to quantify fragmentaion and land use change for red pandas 
 
-### Objectives 
-### Hypothesis 
-
-## Methods 
-### Google Earth Engine 
-
+# Methods 
+### 2.1 Defining the study area
+The distubution of red pandas... 
+Red Panda MaxEnt distrubution 
+### 2.2 Data collection 
 Justification of methods 
 - What can be resonably inferred about actual on the ground change using the GEE and pre processed data products?
-
 Explict methods 
 - Forest cover calculation
 A reletive measure is needed to easily compare areas. Aggregate loss every year relative to 2000 forest cover 
@@ -41,10 +64,16 @@ A reletive measure is needed to easily compare areas. Aggregate loss every year 
 Forest gain is only measured up to 2013. Give an aggregate loss:gain ratio for 2000 - 2013 to indicate level of net change distubance. Not much land abandoment I think in this region. 
 
 Percentage regrowth is also needed to interpreate results. Regrowth would happen for natraul area distubance from 2000 to ~2005. This can be interpretaded as the amound of loss which is natural. This would assume that all human disturbance was permanent. (Is this needed? If forest is losted, no matter if it regrows, it still counts as loss of suitable habitat for red pandas from 2000-2018.)
+####Global Forest Change Dataset
+
+### 2.3 Data processing
+####Forest Change 
+####Fragmentation
+### 2.4 Data analysis
 
 
-- Fragmentation details  
-- What can be resonably inferred about actual on the ground change?
+### Google Earth Engine 
+
 ### Data Analysis 
 
 ## Results
