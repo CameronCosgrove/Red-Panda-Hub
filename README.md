@@ -20,3 +20,6 @@ Repository structure:
 
 More info on the project will eventually be found on my [website](https://cameroncosgrove.github.io/).
 
+First Data for Indian panda habitat
+
+![firstdata](./images/Example_Figure.jpeg)
