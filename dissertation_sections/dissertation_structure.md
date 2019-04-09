@@ -107,9 +107,11 @@ Percentage regrowth is also needed to interpreate results. Regrowth would happen
 ### Data Analysis 
 
 ## Results
-### RQ 1
-#### Hypothesis 1
+### RQ1: How is the area of red panda habitat changing?
+#### Hypothesis 1 : The area of red panda habitat will have decreased by over 5% from 2000 to 2018.
 ![firstgraph](./Rplot.jpeg)
+
+Moderate and Core habitat has lost ~ 12% of habitat from 2000 to 2018.
 #### Hypothesis 2
 <image of example figure>
 
