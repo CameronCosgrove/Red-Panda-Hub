@@ -1,7 +1,7 @@
 ---
 output:
-  pdf_document: default
   html_document: default
+  pdf_document: default
 ---
 # Dissertation 
 ### Quantifying habitat change of the red panda (_Ailurus Fulgens_)
