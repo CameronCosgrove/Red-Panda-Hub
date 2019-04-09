@@ -13,10 +13,10 @@ m_loss <- c(4.873361586, 3.421097485, 1.652784656, 5.269099402, 3.302171072,
            5.384272028, 5.354152532,	9.352939322, 3.638897778,	7.953403538,
            4.837613426,	6.21809593,	11.0628342, 15.84096517,	18.48179334,
            18.32826639,	19.37272264,	16.50837556)
-c_loss <- c(0.6161667506, 0.45189958,	0.1886321409,	0.5344447486,	0.5491237747,
-            0.7730590484,	0.7046096825,	0.9551966405,	0.1866935015,	0.5142730343,
-            0.4560844977,	0.4093576161,	0.5494159674,	1.091311285,	1.538551272,
-            2.119459785,	1.386940711,	0.945083388)
+c_loss <- c(0.6161667506, 0.4917,	0.234,	0.707,	0.707,
+            1.022,	0.903,	1.16,	0.482,	0.639,
+            0.562,	0.463,	1.007,	1.310630,	2.0387,
+            2.402,	1.592,	1.11)
 
 
 loss_data_test <- data.frame(Year, l_loss, m_loss, c_loss)
@@ -24,9 +24,9 @@ loss_data_test
 
 #### Add percentage values for relative comparison ####
 percent_loss <- loss_data_test %>%
-  mutate(percent_loss_low = (l_loss/1120)*100 ) %>%
-  mutate(percent_loss_medium = (m_loss/1705)*100 ) %>%
-  mutate(percent_loss_core = (c_loss/149)*100) %>%
+  mutate(percent_loss_low = (l_loss/813.26)*100 ) %>%
+  mutate(percent_loss_medium = (m_loss/1351)*100 ) %>%
+  mutate(percent_loss_core = (c_loss/147)*100) %>%
   mutate(percent_cumulative_low = cumsum(percent_loss_low)) %>%
   mutate(percent_cumulative_medium = cumsum(percent_loss_medium)) %>%
   mutate(percent_cumulative_core = cumsum(percent_loss_core)) %>%
@@ -73,7 +73,7 @@ red_panda_palett <- c("#b67a3e", "#cb9b74", "#f2e0d2", "#a45544", "	#5a1c1a")
            xmin=c(2012), 
            xmax=c(2018), 
            ymin=c(0), 
-           ymax=c(1.5), 
+           ymax=c(1.7), 
            alpha=0.2, 
            fill="#a45544") +
   labs(title = "Percentage Forest Lost Per Year",
@@ -135,7 +135,7 @@ cum_percent_data <- data_long %>%
             xmin=c(2012), 
             xmax=c(2018), 
             ymin=c(0), 
-            ymax=c(10), 
+            ymax=c(14), 
             alpha=0.2, 
             fill="#a45544") +
    labs(title = "Cumulative Percentage Forest Loss",
@@ -181,5 +181,5 @@ cum_total_data <- data_long %>%
 
 #### Arrange Graphs ####
 cumulative_arrange <- grid.arrange(cum_total_chart, cum_percent_chart,absolute_chart, percent_chart,  nrow = 2) 
-
+c("#EE2C2C", "#FFFFFF", "#FFFFFF")
 
