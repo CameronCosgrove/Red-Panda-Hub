@@ -109,7 +109,7 @@ Percentage regrowth is also needed to interpreate results. Regrowth would happen
 ## Results
 ### RQ 1
 #### Hypothesis 1
-![firstgraph](./images/Rplot.jpeg)
+![firstgraph](./Rplot.jpeg)
 #### Hypothesis 2
 <image of example figure>
 
