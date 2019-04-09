@@ -1,0 +1,424 @@
+https://code.earthengine.google.com/3d7166c839e04541993de7e32c050c80
+
+----- Begin -------
+IMPORT
+
+var test_habitat = /* color: #d63000 */ee.FeatureCollection(
+        [ee.Feature(
+            ee.Geometry.Polygon(
+                [[[82.66260968141205, 29.762919598114728],
+                  [82.09132061891205, 28.8816891834579],
+                  [85.60694561891205, 27.643118766802015],
+                  [89.38624249391205, 27.0967589289241],
+                  [94.13233624391205, 27.604182682185048],
+                  [95.93409405641205, 28.22549042001805],
+                  [95.97803936891205, 29.3040969195067],
+                  [92.02296124391205, 27.915282743970405],
+                  [89.51807843141205, 27.915282743970405],
+                  [86.00245343141205, 28.186763486457014]]]),
+            {
+              "system:index": "0"
+            })]),
+    borders = ee.FeatureCollection("USDOS/LSIB_SIMPLE/2017"),
+    gfc = ee.Image("UMD/hansen/global_forest_change_2018_v1_6"),
+    intersectionIndia = /* color: #0b4a8b */ee.Geometry.Polygon(
+        [[[88.86977409806912, 27.87648342984251],
+          [88.56215691056912, 28.080231552232593],
+          [88.07875847306912, 27.652890231246005],
+          [88.00185417619412, 27.06745354397968],
+          [88.18862175431912, 26.822612063732425],
+          [88.07875847306912, 26.390405432612166],
+          [88.39736198869412, 26.26239642132775],
+          [88.38637566056912, 26.63617777758928],
+          [88.99062370744412, 26.419925860681015],
+          [89.07851433244412, 26.852021100469052],
+          [88.72695183244412, 27.165240942373185],
+          [88.93569206681912, 27.311761531934284],
+          [88.79286980119412, 27.497076789586934]]]),
+    core_habitat = ee.FeatureCollection("users/cameroncosgrove96/core_shapefile-20190407T154823Z-001"),
+    low_habitat = ee.FeatureCollection("users/cameroncosgrove96/low_Meghalaya_Bhutan-20190407T162033Z-001"),
+    moderate_habitat = ee.FeatureCollection("users/cameroncosgrove96/moderate_shapefile-20190407T153928Z-001"),
+    meghalaya_test_area = /* color: #21b4d6 */ee.FeatureCollection(
+        [ee.Feature(
+            ee.Geometry.Polygon(
+                [[[91.38161363196821, 26.470687314883314],
+                  [89.33815660071821, 26.273828511776557],
+                  [89.51393785071821, 25.205056675224053],
+                  [91.73317613196821, 24.50725945837162],
+                  [93.46901597571821, 25.22493567954821],
+                  [93.42507066321821, 25.918640997609177]]]),
+            {
+              "system:index": "0"
+            })]),
+    np = /* color: #98ff00 */ee.FeatureCollection(
+        [ee.Feature(
+            ee.Geometry.Polygon(
+                [[[90.68909196925426, 27.957649652758956],
+                  [89.78271989894176, 27.62233828953393],
+                  [90.53528337550426, 26.772215894022644],
+                  [91.40320329737926, 27.3494439403035]]]),
+            {
+              "system:index": "0"
+            })]);
+            ------------------------------------------------------
+            
+            
+            
+            
+ ////////////////////////////////////////////////////////////////////
+///////// This script is for calcuating forest /////////////////////
+///////// loss in red panda habitat classes    /////////////////////
+///////// per country from 2000-2018.          /////////////////////
+///////// Cameron Cosgrove; last edited 9-4-19 /////////////////////
+////////////////////////////////////////////////////////////////////
+
+//     .--.             .--.      
+//     '.    `   --  `    .'
+//       /'   _        _  `\
+//     /  ~ \\        // ~  \
+//     |/    {}/    \{}    \|
+//     |/_   /'       `\  _\|
+//     \   | .  .==.  . |  /
+//      '._ \.' \__/ './ _.'
+//           '._-''-_.'``  
+//              '---'                     (adapted from from jgs @ asciiart)
+
+/////// LOAD FILES /////////////////////////////////////////////////
+
+//load habitat classes polygons from Cameron's Assets 
+Map.addLayer(core_habitat, {}, "core habitat");
+Map.addLayer(low_habitat, {}, "low habitat");
+Map.addLayer(moderate_habitat, {}, "moderate habitat");
+
+// Make a collection of red panda geoms.
+var b_m_habitat = ee.FeatureCollection([
+  ee.Feature(core_habitat, {name: 'Core Habitat'}),
+  ee.Feature(moderate_habitat, {name: 'Moderate Habitat'}),
+  ee.Feature(low_habitat, {name: 'Low Suitability Habitat'})
+]);
+
+// Load country boundaries from LSIB.
+var countries = ee.FeatureCollection('USDOS/LSIB_SIMPLE/2017');
+
+              // Define Country(s) of interest here \/
+              
+//// Get a feature collection with just the wanted country feature.
+var country = countries.filter(ee.Filter.or(
+  ee.Filter.eq('country_na', 'India')));  // <- Here insert Country Name
+
+            // Define Country(s) of interest here /\
+
+
+// Get the loss image from the latest hansen dataset.
+var gfc= gfc;
+//set the scale defined by hansen import 
+var scale = gfc.projection().nominalScale();
+// pick the forest loss band
+var loss = gfc.select('loss').eq(1);
+var noloss = gfc.select('loss').eq(0);
+
+// Get the loss year images 
+var lossYear = gfc.select(['lossyear']);
+//Get tree cover 2000 layer
+var treecover = gfc.select(['treecover2000']);
+// Denine a new layer as forest (canopy 1% - 100%) and make it it either forest (1)
+//or no forest (0)
+var treecover2000 = treecover.gte(1).eq(1);
+// print(treecover);
+// Map.addLayer(treecover2000,{}, "Forest layer");
+
+
+
+
+
+///////////////////////////////////////////////////////////////////////////
+///////////LOW SUITABILITY Forest Loss ////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+
+
+//Filter the habitat class by the country of interest 
+var l_intersection_country = low_habitat.filterBounds(country);
+Map.addLayer(l_intersection_country, {}, 'l_int');
+
+
+//clip the loss image by the defined habitat class in the defined country
+var l_lossintest_country = loss.clip(l_intersection_country);
+
+Map.addLayer(l_lossintest_country, {}, 'loss_country_low');
+
+//calculate pixel area (nominal scale) and convert m2 -> km2
+var l_areaImage_country = l_lossintest_country.multiply(ee.Image.pixelArea());
+var l_areaImage_country_km = l_areaImage_country.divide(1000 * 1000);
+
+// Sum the values of loss pixels in each panda country.
+var l_stats = l_areaImage_country_km.reduceRegion({
+  reducer: ee.Reducer.sum(),
+  geometry: low_habitat,
+  scale: 30,
+  maxPixels: 1e9
+});
+print('low pixels representing loss: ', l_stats.get('loss'));
+
+///// % Forest Loss Calcualtion ///////
+//There are areas within polygons that are not forested and are not panda habitat.
+//I want the area of forest in 2000 within each habitat class to compare %loss.
+
+// clip my forest cover by the class in the defined country
+var l_treecover_in_habitat = treecover2000.clip(l_intersection_country);
+
+Map.addLayer(l_treecover_in_habitat, {}, 'l_treecover'); // Check it works
+// Get area in km2
+var l_cover_area = l_treecover_in_habitat.multiply(ee.Image.pixelArea());
+var l_cover_area_km = l_cover_area.divide(1000 * 1000);
+// Reduce to sum in geometry
+var l_cover_stats = l_cover_area_km.reduceRegion({
+  reducer: ee.Reducer.sum(),
+  geometry: l_intersection_country,
+  scale: 30,
+  maxPixels: 1e9
+});
+print('Treecover area in Low Suitability Habitat: ', l_cover_stats.get('treecover2000'));
+
+// The incorrect way is to do it by polygon area (Below) ///
+// var l_area =  l_intersection_country.geometry().area().divide(1000 * 1000);
+// print('low area', l_area);
+
+
+//////// Low LOSS per year /////////////
+
+//Reduce with lossYear as a group 
+var l_lossByYear = l_areaImage_country_km.addBands(lossYear).reduceRegion({
+  reducer: ee.Reducer.sum().group({
+    groupField: 1
+    }),
+  geometry: low_habitat,
+  scale: 30,
+  maxPixels: 1e9
+});
+
+// Format and print as list (code from hansen tutorial)//
+var l_statsFormatted = ee.List(l_lossByYear.get('groups'))
+  .map(function(el) {
+    var d = ee.Dictionary(el);
+    return [ee.Number(d.get('group')).format("20%02d"), d.get('sum')];
+  });
+var l_statsDictionary = ee.Dictionary(l_statsFormatted.flatten());
+print(l_statsDictionary);
+
+
+// Make Loss Chart to make sure things are working. Does this look reasonable
+var l_chart = ui.Chart.array.values({
+  array: l_statsDictionary.values(),
+  axis: 0,
+  xLabels: l_statsDictionary.keys()
+}).setChartType('ScatterChart')
+  .setOptions({
+    title: 'Low Suitability Yearly Forest Loss',
+    hAxis: {title: 'Year', format: '####'},
+    vAxis: {title: 'Area (square km)'},
+    legend: { position: "none" },
+    lineWidth: 1,
+    pointSize: 3
+  });
+print(l_chart);
+
+
+//Export yearly loss of habitat class
+var l_year_fc = ee.FeatureCollection(ee.Feature(null, l_statsDictionary))
+Export.table.toDrive({
+  collection: l_year_fc,
+  description: 'low_year_forest_loss_in_Meghalaya'}); // <------ Change Name Here
+
+
+
+
+
+
+
+
+
+/////////////////////  Moderate Suitibility //////////////////////
+
+//This defines a roi of test panda habitat and country intersection, while keeping 
+//the info of both feature collections 
+
+var m_intersection_country = moderate_habitat.filterBounds(country);
+Map.addLayer(m_intersection_country, {}, 'moderate_habitat_in_country');
+
+//clip the loss image by the defined habitat class in the defined country
+var m_lossintest_country = loss.clip(m_intersection_country);
+
+Map.addLayer(m_lossintest_country, {}, "loss in moderate habitat");
+
+// var areaImageNepal = lossintestNepal.multiply(ee.Image.pixelArea());
+var m_areaImage_country = m_lossintest_country.multiply(ee.Image.pixelArea());
+var m_areaImage_country_km = m_areaImage_country.divide(1000 * 1000);
+
+
+// Sum the values of loss pixels in each panda country.
+var m_stats = m_areaImage_country_km.reduceRegion({
+  reducer: ee.Reducer.sum(),
+  geometry: moderate_habitat,
+  scale: 30,
+  maxPixels: 1e9
+});
+print('moderate pixels representing loss: ', m_stats.get('loss'));
+
+      ///// % Forest Loss Calcualtion ///////
+// What is the area of each habitat class in km?
+
+
+var m_treecover_in_habitat = treecover2000.clip(m_intersection_country);
+Map.addLayer(m_treecover_in_habitat, {}, 'm_treecover')
+var m_cover_area = m_treecover_in_habitat.multiply(ee.Image.pixelArea());
+var m_cover_area_km = m_cover_area.divide(1000 * 1000);
+var m_cover_stats = m_cover_area_km.reduceRegion({
+  reducer: ee.Reducer.sum(),
+  geometry: m_intersection_country,
+  scale: 30,
+  maxPixels: 1e9
+});
+print('Treecover area in moderate Habitat: ', m_cover_stats.get('treecover2000'));
+
+
+
+////     Moderate LOSS per year  ///////
+
+
+var m_lossByYear = m_areaImage_country_km.addBands(lossYear).reduceRegion({
+  reducer: ee.Reducer.sum().group({
+    groupField: 1
+    }),
+  geometry: moderate_habitat,
+  scale: 30,
+  maxPixels: 1e9
+});
+print(m_lossByYear);
+
+var m_statsFormatted = ee.List(m_lossByYear.get('groups'))
+  .map(function(el) {
+    var d = ee.Dictionary(el);
+    return [ee.Number(d.get('group')).format("20%02d"), d.get('sum')];
+  });
+var m_statsDictionary = ee.Dictionary(m_statsFormatted.flatten());
+print(m_statsDictionary);
+
+//Moderate Chart
+var m_chart = ui.Chart.array.values({
+  array: m_statsDictionary.values(),
+  axis: 0,
+  xLabels: m_statsDictionary.keys()
+}).setChartType('ScatterChart')
+  .setOptions({
+    title: 'Moderate Suitability Yearly Forest Loss',
+    hAxis: {title: 'Year', format: '####'},
+    vAxis: {title: 'Area (square km)'},
+    legend: { position: "none" },
+    lineWidth: 1,
+    pointSize: 3
+  });
+print(m_chart);
+
+
+//Export yearly loss of habitat class
+var m_year_fc = ee.FeatureCollection(ee.Feature(null, m_statsDictionary))
+Export.table.toDrive({
+  collection: m_year_fc,
+  description: 'moderate_year_forest_loss_in_country'}); // <------ Change Name Here
+
+
+
+
+
+
+
+
+
+/////////////////////  Core Suitibility //////////////////////
+
+//This defines a roi of test panda habitat and country intersection, while keeping 
+//the info of both feature collections 
+
+var c_intersection_country = core_habitat.filterBounds(country);
+//Map.addLayer(c_intersection_country);
+
+//clip the loss image by the defined habitat class in the defined country
+var c_lossintest_country = loss.clip(c_intersection_country);
+
+Map.addLayer(c_lossintest_country, {}, "loss in core habitat");
+
+// var areaImageNepal = lossintestNepal.multiply(ee.Image.pixelArea());
+var c_areaImage_country = c_lossintest_country.multiply(ee.Image.pixelArea());
+var c_areaImage_country_km = c_areaImage_country.divide(1000 * 1000);
+
+
+// Sum the values of loss pixels in each panda country.
+var c_stats = c_areaImage_country_km.reduceRegion({
+  reducer: ee.Reducer.sum(),
+  geometry: core_habitat,
+  scale: 30,
+  maxPixels: 1e9
+});
+print('core pixels representing loss: ', c_stats.get('loss'));
+
+      ///// % Forest Loss Calcualtion ///////
+// What is the area of each habitat class in km?
+
+
+var c_treecover_in_habitat = treecover2000.clip(c_intersection_country);
+Map.addLayer(c_treecover_in_habitat, {}, 'c_treecover')
+var c_cover_area = c_treecover_in_habitat.multiply(ee.Image.pixelArea());
+var c_cover_area_km = c_cover_area.divide(1000 * 1000);
+var c_cover_stats = c_cover_area_km.reduceRegion({
+  reducer: ee.Reducer.sum(),
+  geometry: c_intersection_country,
+  scale: 30,
+  maxPixels: 1e9
+});
+print('Treecover area in core Habitat: ', c_cover_stats.get('treecover2000'));
+
+
+
+////     Core LOSS per year  ///////
+
+
+var c_lossByYear = c_areaImage_country_km.addBands(lossYear).reduceRegion({
+  reducer: ee.Reducer.sum().group({
+    groupField: 1
+    }),
+  geometry: core_habitat,
+  scale: 30,
+  maxPixels: 1e9
+});
+print(c_lossByYear);
+
+var c_statsFormatted = ee.List(c_lossByYear.get('groups'))
+  .map(function(el) {
+    var d = ee.Dictionary(el);
+    return [ee.Number(d.get('group')).format("20%02d"), d.get('sum')];
+  });
+var c_statsDictionary = ee.Dictionary(c_statsFormatted.flatten());
+print(c_statsDictionary);
+
+//Core Chart
+var c_chart = ui.Chart.array.values({
+  array: c_statsDictionary.values(),
+  axis: 0,
+  xLabels: c_statsDictionary.keys()
+}).setChartType('ScatterChart')
+  .setOptions({
+    title: 'Core Suitability Yearly Forest Loss',
+    hAxis: {title: 'Year', format: '####'},
+    vAxis: {title: 'Area (square km)'},
+    legend: { position: "none" },
+    lineWidth: 1,
+    pointSize: 3
+  });
+print(c_chart);
+
+
+//Export yearly loss of habitat class
+var c_year_fc = ee.FeatureCollection(ee.Feature(null, c_statsDictionary))
+Export.table.toDrive({
+  collection: c_year_fc,
+  description: 'core_year_forest_loss_in_country'}); // <------ Change Name Here
