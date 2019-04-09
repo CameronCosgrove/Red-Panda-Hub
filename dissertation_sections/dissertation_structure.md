@@ -1,3 +1,8 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
 # Dissertation 
 ### Quantifying habitat change of the red panda (_Ailurus Fulgens_)
 
@@ -104,7 +109,7 @@ Percentage regrowth is also needed to interpreate results. Regrowth would happen
 ## Results
 ### RQ 1
 #### Hypothesis 1
-<image of example figure>
+![firstgraph](./images/Rplot.jpeg)
 #### Hypothesis 2
 <image of example figure>
 
