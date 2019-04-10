@@ -1,8 +1,4 @@
----
-output:
-  html_document: default
-  pdf_document: default
----
+
 # Dissertation 
 ### Quantifying habitat change of the red panda (_Ailurus Fulgens_)
 
@@ -65,8 +61,8 @@ H3: Red panda habitat in protected areas will show the least forest loss from 20
 
 RQ2: How connected is red panda habitat? 
 
-H1: Red pandas are likely separated into more than three isolated sub populations.
-H10: Red pandas are isolated into three sub populations.
+H1: Red pandas are separated into more than three isolated sub populations.
+H10: Red pandas are isolated into three sub populations (the three previously known).
 
 
 
@@ -81,24 +77,24 @@ H10: Red pandas are isolated into three sub populations.
 ### 2.1 Defining the study area
 The distubution of red pandas... 
 Red Panda MaxEnt distrubution 
-Can easily recreate my own Feature collection using polygons and the MaxEnt map. I wil start this on monday 
+Can easily recreate my own Feature collection using polygons and the MaxEnt map. I have done most of this. 
 ### 2.2 Data collection 
 Justification of methods 
 - What can be resonably inferred about actual on the ground change using the GEE and pre processed data products?
 Explict methods 
 - Forest cover calculation
-A reletive measure is needed to easily compare areas. Aggregate loss every year relative to 2000 forest cover 
+A reletive measure is needed to easily compare areas. Aggregate loss every year relative to 2000 forest cover. 
 
 
 
 Forest gain is only measured up to 2013. Give an aggregate loss:gain ratio for 2000 - 2013 to indicate level of net change distubance. Not much land abandoment I think in this region. 
 
-Percentage regrowth is also needed to interpreate results. Regrowth would happen for natraul area distubance from 2000 to ~2005. This can be interpretaded as the amound of loss which is natural. This would assume that all human disturbance was permanent. (Is this needed? If forest is losted, no matter if it regrows, it still counts as loss of suitable habitat for red pandas from 2000-2018.)
+Percentage regrowth is also needed to interpreate results. Regrowth would happen for natraul area distubance from 2000 to ~2005. This can be interpretaded as the amound of loss which is natural. This would assume that all human disturbance was permanent. (Is this needed? If forest is lost, no matter if it regrows, it still counts as loss of suitable habitat for red pandas from 2000-2018.)
 ####Global Forest Change Dataset
 
 ### 2.3 Data processing
 ####Forest Change 
-####Fragmentation
+####Sub population
 ### 2.4 Data analysis
 
 
@@ -107,9 +103,17 @@ Percentage regrowth is also needed to interpreate results. Regrowth would happen
 ### Data Analysis 
 
 ## Results
-### RQ 1
-#### Hypothesis 1
+### RQ1: How is the area of red panda habitat changing?
+#### Hypothesis 1 : The area of red panda habitat will have decreased by over 5% from 2000 to 2018.
 ![firstgraph](./Rplot.jpeg)
+
+Moderate and Core habitat has lost ~ 12% of habitat from 2000 to 2018.
+
+#### Gain loss ratio table for the above figure for 2000 - 2013:
+
+| Low Suitablility| Moderate Suitability  | Core Suitability |
+| ------------- |-------------| -----|
+| 0.14     | 0.30 | 0.29 |
 #### Hypothesis 2
 <image of example figure>
 
