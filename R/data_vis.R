@@ -77,8 +77,7 @@ red_panda_palett <- c("#b67a3e", "#cb9b74", "#f2e0d2", "#a45544", "	#5a1c1a")
            alpha=0.2, 
            fill="#a45544") +
   labs(title = "Percentage Forest Lost Per Year",
-       x = "Year", 
-       y = "% forest loss") +
+       x = "Year") +
   scale_colour_manual(values =c("#66CDAA", "#00B2EE", "#EE0000"),
                       name="Habitat\nSuitability",
                       breaks=c("percent_loss_low", "percent_loss_medium", "percent_loss_core"),
@@ -105,9 +104,7 @@ red_panda_palett <- c("#b67a3e", "#cb9b74", "#f2e0d2", "#a45544", "	#5a1c1a")
              ymax=c(20), 
              alpha=0.2, 
              fill="#a45544") +
-    labs(title = "Area of Forest Lost Each Year",
-         x = "Year", 
-         y = expression(km^{2}~forest~loss)) +
+    labs(title = "Area of Forest Lost Each Year") +
     scale_colour_manual(values =c("#66CDAA", "#00B2EE", "#EE0000"),
                         name="Habitat\nSuitability",
                         breaks=c("l_loss", "m_loss", "c_loss"),
@@ -125,7 +122,7 @@ cum_percent_data <- data_long %>%
                              group= Treatment)) +
    geom_line(stat="identity",
              aes(col=Treatment),
-             show.legend = T,
+             show.legend = F,
              size = 1) +
    theme_bw() + 
    coord_cartesian(xlim = c(2001,2018), expand = F,
@@ -156,7 +153,7 @@ cum_total_data <- data_long %>%
                                  group= Treatment)) +
     geom_line(stat="identity",
               aes(col=Treatment),
-              show.legend = T,
+              show.legend = F,
               size = 1) +
     theme_bw() + 
     coord_cartesian(xlim = c(2001,2018), expand = F,
@@ -170,7 +167,6 @@ cum_total_data <- data_long %>%
              alpha=0.2, 
              fill="#a45544") +
     labs(title = "Cumulative Area of Forest Loss",
-         x = "Year", 
          y = expression(km^{2}~forest~loss)) +
     scale_colour_manual(values =c("#66CDAA", "#00B2EE", "#EE0000"),
                         name="Habitat\nSuitability",
@@ -180,6 +176,15 @@ cum_total_data <- data_long %>%
 
 
 #### Arrange Graphs ####
-cumulative_arrange <- grid.arrange(cum_total_chart, cum_percent_chart,absolute_chart, percent_chart,  nrow = 2) 
+cumulative_arrange <- grid.arrange(cum_total_chart, absolute_chart, cum_percent_chart, percent_chart,  nrow = 2) 
 c("#EE2C2C", "#FFFFFF", "#FFFFFF")
+
+#### Gain to loss ratio for 2000-2013 ####
+# Enter in specific values as printed in the GEE Forest Loss Script
+low_ratio = 4.57/cum_total_data$measurement[13]
+moderate_ratio = 21.79/cum_total_data$measurement[31]
+core_ratio = 2.58/cum_total_data$measurement[49]
+
+View(data.frame(low_ratio, moderate_ratio, core_ratio))
+
 
