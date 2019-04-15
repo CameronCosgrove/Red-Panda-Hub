@@ -1,0 +1,235 @@
+LINK: https://code.earthengine.google.com/423f775e49a90046ccf5dddd43457289
+
+////////////////////////////////////////////////////////////////////
+///////// This script is for calcuating forest /////////////////////
+///////// loss in red panda habitat classes    /////////////////////
+///////// per Protected Area from 2000-2018.   /////////////////////
+///////// Cameron Cosgrove; last edited 11-4-19 /////////////////////
+////////////////////////////////////////////////////////////////////
+
+//     .--.             .--.      
+//     '.    `   --  `    .'
+//       /'   _        _  `\
+//     /  ~ \\        // ~  \
+//     |/    {}/    \{}    \|
+//     |/_   /'       `\  _\|
+//     \   | .  .==.  . |  /
+//      '._ \.' \__/ './ _.'
+//           '._-''-_.'``  
+//              '---'            (adapted from from jgs @ asciiart)
+
+/////// LOAD FILES /////////////////////////////////////////////////
+// Filter PA by IUCN designation
+Map.addLayer(PA, {}, 'PA');
+var IUCN_Ia = PA.filter(ee.Filter.eq('IUCN_CAT', 'Ia'));
+var IUCN_Ib = PA.filter(ee.Filter.eq('IUCN_CAT', 'Ib'));
+var IUCN_II = PA.filter(ee.Filter.eq('IUCN_CAT', 'II'));
+var IUCN_III = PA.filter(ee.Filter.eq('IUCN_CAT', 'III'));
+var IUCN_IV = PA.filter(ee.Filter.eq('IUCN_CAT', 'IV'));
+var IUCN_V = PA.filter(ee.Filter.eq('IUCN_CAT', 'V'));
+var IUCN_VI = PA.filter(ee.Filter.eq('IUCN_CAT', 'VI'));
+
+
+ Map.addLayer(IUCN_VI, {}, 'IUCN_VI');
+// Map.addLayer(IUCN_II, {}, 'IUCN_II');
+// Map.addLayer(IUCN_III, {}, 'IUCN_III');
+// Map.addLayer(IUCN_Ia, {}, 'IUCN_Ia');
+// Map.addLayer(IUCN_Ib, {}, 'IUCN_Ib');
+// Map.addLayer(IUCN_IV, {}, 'IUCN_IV');
+// Map.addLayer(IUCN_V, {}, 'IUCN_V');
+
+// Load country boundaries from LSIB.
+var countries = ee.FeatureCollection('USDOS/LSIB_SIMPLE/2017');
+
+              // Define Country(s) of interest here \/
+              
+// Get a feature collection with just the wanted country feature.
+var country = countries.filter(ee.Filter.or(
+  ee.Filter.eq('country_na', 'Bhutan')));  // <- Here insert Country Name
+
+
+            // Define Country(s) of interest here /\
+
+
+//Load Habitat Polygons
+var habitat = ee.FeatureCollection([
+  ee.Feature(core_habitat, {name: 'Core Habitat'}),
+  ee.Feature(moderate_habitat, {name: 'Moderate Habitat'}),
+  ee.Feature(low_habitat, {name: 'Low Suitability Habitat'})
+]).flatten();
+
+
+// Get the loss image from the latest hansen dataset.
+var gfc= gfc;
+//set the scale defined by hansen import 
+var scale = gfc.projection().nominalScale();
+// pick the forest loss band
+var loss = gfc.select('loss').eq(1);
+var noloss = gfc.select('loss').eq(0);
+// create gain band too
+var gain = gfc.select('gain').eq(1);
+// Get the loss year images 
+var lossYear = gfc.select(['lossyear']);
+//Get tree cover 2000 layer
+var treecover = gfc.select(['treecover2000']);
+// Denine a new layer as forest (canopy 1% - 100%) and make it it either forest (1)
+//or no forest (0)
+var treecover2000 = treecover.gte(1).eq(1);
+// print(treecover);
+// Map.addLayer(treecover2000,{}, "Forest layer");
+var land1 = gfc.select(['datamask']);
+var land = land1.eq(2);
+
+
+
+// Should I filter PA results by country? For the moment I will keep it to a pure ICUN trans
+//boundry filter.
+
+///////////////////////////////////////////////////////////////////////////
+///////////PA Forest Loss ///////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+
+
+//Filter the habitat class by the IUCN category of interest 
+var habitat_country = habitat.filterBounds(country);
+Map.addLayer(habitat_country, {}, 'bhutan habitat');
+
+var loss_habitat = loss.clip(habitat_country);
+
+// var habitat_as_feature = loss_habitat.reduceToVectors({
+//   geometry: habitat,
+//   maxPixels: 2e9
+// });
+
+// Map.addLayer(loss_habitat_as_feature, {}, 'habitat_country_as_feature');
+
+var pa_country= IUCN_VI.filterBounds(country);   // <- Change IUCN rating here 
+
+//I need a feature collection of the panda habitat in the chosen pa to calcualte % forest loss
+print(pa_country);
+print(habitat_country); //both feature collections 
+var hcf = habitat_country;
+var hcfg = hcf.geometry();
+var pacg = pa_country.geometry();
+print(hcfg);
+print(pacg);
+
+var feature_pa_country_habitat = hcfg.intersection(pacg); // done
+
+
+Map.addLayer(feature_pa_country_habitat,{}, 'feature of panda habitat in the pa type');
+
+var land_in_pa_habitat = land.clip(habitat_country);
+
+
+
+
+var habitat_country_pa = loss_habitat.clip(pa_country);
+
+Map.addLayer(habitat_country_pa, {}, 'bhutan habitat in PAs');
+
+var land_habitat_country_pa = land_in_pa_habitat.clip(pa_country);
+
+
+
+//calculate pixel area (nominal scale) and convert m2 -> km2
+var areaImage_country_pa = habitat_country_pa.multiply(ee.Image.pixelArea());
+var areaImage_country_pa_km = areaImage_country_pa.divide(1000 * 1000);
+
+
+
+// /// Gain to loss ratio ///
+
+// //GAIN: only shows total cumulative gain from 2000 to 2013
+// //clip the gain image by the defined habitat class in the defined country
+// var l_gainintest_country = gain.clip(l_intersection_country);
+
+// //calculate pixel area (nominal scale) and convert m2 -> km2
+// var l_areaImage_country_gain = l_gainintest_country.multiply(ee.Image.pixelArea());
+// var l_areaImage_country_km_gain = l_areaImage_country_gain.divide(1000 * 1000);
+// // Sum the values of loss pixels within panda habitat in the selected country.
+// var l_stats_gain = l_areaImage_country_km_gain.reduceRegion({
+//   reducer: ee.Reducer.sum(),
+//   geometry: low_habitat,
+//   scale: 30,
+//   maxPixels: 1e9
+// });
+// print('low area of forest gain in km2: ', l_stats_gain.get('gain'));
+
+// /// NOW divide output by the cumulative area of loss up to 2013.
+
+
+
+///// % Forest Loss Calcualtion ///////
+
+//There are areas within polygons that are not forested and are not panda habitat.
+//I want the area of forest in 2000 within each habitat class to compare %loss.
+
+// clip my forest cover by the class in the defined country
+var treecover_in_habitat = treecover2000.clip(feature_pa_country_habitat);
+
+Map.addLayer(treecover_in_habitat, {}, 'treecover'); // Check it works
+// Get area in km2
+var cover_area = treecover_in_habitat.multiply(ee.Image.pixelArea());
+var cover_area_km = cover_area.divide(1000 * 1000);
+// Reduce to sum in geometry
+var cover_stats = cover_area_km.reduceRegion({
+  reducer: ee.Reducer.sum(),
+  geometry: habitat,
+  scale: 30,
+  maxPixels: 1e9
+});
+print('Treecover area in Panda Habitat in PA: ', cover_stats.get('treecover2000'));
+
+// The incorrect way is to do it by polygon area (Below) ///
+// var l_area =  l_intersection_country.geometry().area().divide(1000 * 1000);
+// print('low area', l_area);
+
+
+// //////// Low LOSS per year /////////////
+
+//Reduce with lossYear as a group 
+var lossByYear = areaImage_country_pa_km.addBands(lossYear).reduceRegion({
+  reducer: ee.Reducer.sum().group({
+    groupField: 1
+    }),
+  geometry: feature_pa_country_habitat,
+  scale: 30,
+  maxPixels: 1e9
+});
+
+// Format and print as list (code from hansen tutorial)//
+var statsFormatted = ee.List(lossByYear.get('groups'))
+  .map(function(el) {
+    var d = ee.Dictionary(el);
+    return [ee.Number(d.get('group')).format("20%02d"), d.get('sum')];
+  });
+var statsDictionary = ee.Dictionary(statsFormatted.flatten());
+print(statsDictionary);
+
+
+// Make Loss Chart to make sure things are working. Does this look reasonable
+var chart = ui.Chart.array.values({
+  array: statsDictionary.values(),
+  axis: 0,
+  xLabels: statsDictionary.keys()
+}).setChartType('ScatterChart')
+  .setOptions({
+    title: 'Yearly Forest Loss of panda habitat in IUCN II',
+    hAxis: {title: 'Year', format: '####'},
+    vAxis: {title: 'Area (square km)'},
+    legend: { position: "none" },
+    lineWidth: 1,
+    pointSize: 3
+  });
+print(chart);
+
+
+// //Export yearly loss of habitat class
+// var l_year_fc = ee.FeatureCollection(ee.Feature(null, l_statsDictionary))
+// Export.table.toDrive({
+//   collection: l_year_fc,
+//   description: 'low_year_forest_loss_in_Meghalaya'}); // <------ Change Name Here
+
+
+
