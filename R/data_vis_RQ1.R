@@ -138,7 +138,7 @@ cum_percent_data <- data_long %>%
                              group= Treatment)) +
    geom_line(stat="identity",
              aes(col=Treatment),
-             show.legend = F,
+             show.legend = T,
              size = 1) +
    theme_bw() + 
    coord_cartesian(xlim = c(2001,2018), expand = F,
@@ -148,7 +148,7 @@ cum_percent_data <- data_long %>%
             xmin=c(2012), 
             xmax=c(2018), 
             ymin=c(0), 
-            ymax=c(14), 
+            ymax=c(12), 
             alpha=0.2, 
             fill="#a45544") +
    labs(title = "Cumulative Percentage Forest Loss",

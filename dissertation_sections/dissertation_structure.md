@@ -1,6 +1,5 @@
 
-# Dissertation 
-### Quantifying habitat change of the red panda (_Ailurus Fulgens_)
+# Quantifying habitat change of the red panda (_Ailurus Fulgens_)
 
 # Summary 
 Habitat loss has consistently been identified as the largest threat facing the endangered red panda. The species low dispersal capabilities, arboreal lifestyle, and narrow distribution also make red pandas particularly susceptible to reproductive isolation cause by habitat fragmentation. For the first time, this dissertation quantifies the extent of habitat loss across the red pandas entire range, and identifies possible new isolated sub populations. My results estimate an area of XXX km2 of forest habitat has been lost since 2000 - 2018. The XXX area and the YYY area show the most pronounced forest loss. Rates of forest loss are /increasing/decreasing/country-dependant. No countries show a net increase in forest from 2000 - 2012 in red panda habitat. Protected areas sufficiently/insufficiently protect forest. The forest network in red panda habitat is likely fragmented into X isolated populations, X of which were unknown prior to this study. The conservation implications of this work are...
@@ -27,7 +26,7 @@ List of abbreviations
     * #### Fragmentation
 * #### 2.4 Data analysis
 
-#### 3. Results 
+#### 3. Results
 * #### How forest cover has changed in predicted red panda habitat from 2000-2018
 * #### Key areas of habitat loss
 * #### Identification of distinct sub populations 
@@ -49,29 +48,25 @@ GGE - Google Earth Engine
 ### 1.2 Threats and current conservation efforts 
 ### 1.3 Project Rationale 
 ### 1.4 Research questions and hypotheses
-RQ1: How is the area of red panda habitat changing?
+####RQ1: How is the area of red panda habitat changing?
 
-H1: The area of red panda habitat will have decreased by over 5% from 2000 to 2018.
+H1: The area of red panda habitat will have decreased by over 5% from 2000 to 2018 across its entire range.
+
 H10: There is less than 5% forest loss in the area of red panda habitat from 2000 to 2018.
 
-H2: The magnitude and rate of red panda habitat loss will be different in different parts of its range. 
-H20: The magnitude and rate of red panda habitat loss will not be  different in different parts of its range. 
+####RQ2: Do protected areas conserve red panda habitat? 
 
-H3: Red panda habitat in protected areas will show the least forest loss from 2000-1018
+H1: The magnitude and rate of red panda habitat loss will be less in protected areas with the higer IUCN rating correlating with lower forest loss. 
 
-RQ2: How connected is red panda habitat? 
 
-H1: Red pandas are separated into more than three isolated sub populations.
+
+####RQ3: How many sub populations of red pandas are there? 
+
+I think I am going to skip this question. It is not praticualry quantitive and to answer it well requires more info on panda responses to fragmentation and dispersal capabilities. 
+
+H1: Red pandas are separated into more than three sub populations separated by a gap in forest cover of >30km between each population.
+
 H10: Red pandas are isolated into three sub populations (the three previously known).
-
-
-
-
-
-- Fragmentaion and landuse change are large drivers of global ecosystem change
-- Community responses are complex but indivdual responses can be inferred more simply 
-- Red Panda ecology make them particularly supceptable to bad impact of fragmentation and habitat loss 
-- Remote sensing can be used to quantify fragmentaion and land use change for red pandas 
 
 # Methods 
 ### 2.1 Defining the study area
@@ -114,20 +109,13 @@ Moderate and Core habitat has lost ~ 12% of habitat from 2000 to 2018.
 | Low Suitablility| Moderate Suitability  | Core Suitability |
 | ------------- |-------------| -----|
 | 0.14     | 0.30 | 0.29 |
-#### Hypothesis 2
-<image of example figure>
 
-### RQ 2
+
+### RQ 2: Do protected areas conserve red panda habitat?
 #### Hypothesis 1
 <image of example figure>
-#### Hypothesis 2
-<image of example figure>
 
-### RQ 3
-#### Hypothesis 1
-<image of example figure>
-#### Hypothesis 2
-<image of example figure>
+
 
 ## Discussion 
 
