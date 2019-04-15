@@ -23,13 +23,13 @@ List of abbreviations
     * #### Red Panda MaxEnt distrubution 
 * #### 2.3 Data processing
     * #### Forest Change 
-    * #### Fragmentation
+    * #### Hot spot identification
 * #### 2.4 Data analysis
 
 #### 3. Results
 * #### How forest cover has changed in predicted red panda habitat from 2000-2018
 * #### Key areas of habitat loss
-* #### Identification of distinct sub populations 
+
 
 #### 4. Discussion 
 * #### How is Red Panda Habitat changing?
