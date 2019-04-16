@@ -60,11 +60,12 @@ H1: The magnitude and rate of red panda habitat loss will be less in protected a
 
 
 
-####RQ3: How many sub populations of red pandas are there? 
+#### RQ 3: Where are the hotspots of habitat loss?
 
-I think I am going to skip this question. It is not praticualry quantitive and to answer it well requires more info on panda responses to fragmentation and dispersal capabilities. 
+H1: Hotspots of habitat loss (defined as >30% forest loss in a circle with r=2.5km) will be focused towards the southern and less mountainous parts of the red panda range. (Below 2000m??)
 
-H1: Red pandas are separated into more than three sub populations separated by a gap in forest cover of >30km between each population.
+
+Red pandas are separated into more than three sub populations separated by a gap in forest cover of >30km between each population.
 
 H10: Red pandas are isolated into three sub populations (the three previously known).
 
@@ -112,11 +113,22 @@ Moderate and Core habitat has lost ~ 12% of habitat from 2000 to 2018.
 
 
 ### RQ 2: Do protected areas conserve red panda habitat?
+
+![secondgraph](./pa_vs_all_habitat.png)
+
 #### Hypothesis 1
 <image of example figure>
 
+### RQ 3: Where is habitat changing
+#Where are the hotspots of habitat loss?
+![thirdgraph](./range_loss.png)
 
+#Where is the least disturbed habitat? 
+![](./low_disturbance.png)
+even low levels of loss can impact pandas due to fragmentation and disturbance.
+Low disturbance map too? It could be inferred as less fragmented habitat?
 
+I can use a colour ramp to merge both of these figures. Showing in one colour the least distrubed areas, then using a normal heatmap for the rest of the areas
 ## Discussion 
 
 #### How is Red Panda Habitat changing?
