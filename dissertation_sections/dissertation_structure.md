@@ -70,7 +70,7 @@ H3: More habitat will be lost at lower elevations (Should I drop this?)
 
 ####RQ2: Do protected areas conserve red panda habitat? 
 
-H1: The magnitude and rate of red panda habitat loss will be less in protected areas with the higer IUCN rating correlating with lower forest loss. 
+H1: The magnitude and rate of red panda habitat loss will be less in protected areas with the higer IUCN rating.
 
 
 
