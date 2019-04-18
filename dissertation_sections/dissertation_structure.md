@@ -1,18 +1,27 @@
 
-# Quantifying habitat change of the red panda (_Ailurus Fulgens_)
+# Evaluating habitat change of the red panda (_Ailurus Fulgens_) from 2000 - 2018 
 
 # Summary 
-Habitat loss has consistently been identified as the largest threat facing the endangered red panda. The species low dispersal capabilities, arboreal lifestyle, and narrow distribution also make red pandas particularly susceptible to reproductive isolation cause by habitat fragmentation. For the first time, this dissertation quantifies the extent of habitat loss across the red pandas entire range, and identifies possible new isolated sub populations. My results estimate an area of XXX km2 of forest habitat has been lost since 2000 - 2018. The XXX area and the YYY area show the most pronounced forest loss. Rates of forest loss are /increasing/decreasing/country-dependant. No countries show a net increase in forest from 2000 - 2012 in red panda habitat. Protected areas sufficiently/insufficiently protect forest. The forest network in red panda habitat is likely fragmented into X isolated populations, X of which were unknown prior to this study. The conservation implications of this work are...
+
+(rough outline)
+
+Habitat loss has consistently been identified as the largest threat facing the endangered red panda. The species' low dispersal capabilities, arboreal lifestyle, and narrow distribution also make red pandas particularly susceptible to reproductive isolation cause by habitat fragmentation. For the first time, this dissertation quantifies the extent of habitat loss across the red pandas entire range, and maps the areas of low and high habitat habitat distubance. My results estimate an area of XXX km2 of forest habitat has been lost since 2000 - 2018. The XXX area and the YYY area show the most pronounced forest loss. No countries show a net increase in forest from 2000 - 2012 in red panda habitat. Protected areas sufficiently/insufficiently protect forest. Habitats at lower elevation show the highest amount of habitat loss, which correlates with higer human population. The forest network in red panda habitat is likely fragmented into 3 isolated populations, with X habitat bottlenecks experiencing moderate to high distubance. The conservation implications of this work are...
 
 # Contents Page
-Summary
-Table of contents
-Acknowledgements
-List of abbreviations
+####Summary
+
+####Table of contents
+
+####Acknowledgements
+
+####List of abbreviations
+
 
 #### 1. Introduction 
 - #### 1.1 Red panda ecology
+    - #### Two species or one?
 - #### 1.2 Threats and current conservation efforts 
+    - #### Remote sensing tools
 - #### 1.3 Project Rationale 
 - #### 1.4 Research questions and hypotheses
 
@@ -28,6 +37,7 @@ List of abbreviations
 
 #### 3. Results
 * #### How forest cover has changed in predicted red panda habitat from 2000-2018
+* #### Protected areas and habitat loss
 * #### Key areas of habitat loss
 
 
@@ -41,7 +51,7 @@ List of abbreviations
 I would like to thank.. 
 
 # Abbreviations 
-GGE - Google Earth Engine 
+GEE - Google Earth Engine 
 
 # Intro 
 ### 1.1 Red panda ecology
@@ -54,57 +64,83 @@ H1: The area of red panda habitat will have decreased by over 5% from 2000 to 20
 
 H10: There is less than 5% forest loss in the area of red panda habitat from 2000 to 2018.
 
+H2: Low suitability habitat will show 5% more forest loss than moderate and core suitability classes.
+
+H3: More habitat will be lost at lower elevations (Should I drop this?)
+
 ####RQ2: Do protected areas conserve red panda habitat? 
 
 H1: The magnitude and rate of red panda habitat loss will be less in protected areas with the higer IUCN rating correlating with lower forest loss. 
 
 
 
-#### RQ 3: Where are the hotspots of habitat loss?
-
-H1: Hotspots of habitat loss (defined as >30% forest loss in a circle with r=2.5km) will be focused towards the southern and less mountainous parts of the red panda range. (Below 2000m??)
-
-
-Red pandas are separated into more than three sub populations separated by a gap in forest cover of >30km between each population.
-
-H10: Red pandas are isolated into three sub populations (the three previously known).
-
 # Methods 
 ### 2.1 Defining the study area
-The distubution of red pandas... 
-Red Panda MaxEnt distrubution 
-Can easily recreate my own Feature collection using polygons and the MaxEnt map. I have done most of this. 
+The distubution of red pandas best described by probability models. Survey data is sparse and located to areas with good access. Red pandas have a narrowly defined niche so MaxEnt modeling works particulairy well.
+Red Panda MaxEnt distrubution recreated using polygons and photoshop. Not perfect but sufficent with the data I had access to. 
+
+Protected area polygons and classifications from Protected Planet 
+
+Elevation data from SRTM Digital Elevation Data 30m
 ### 2.2 Data collection 
-Justification of methods 
-- What can be resonably inferred about actual on the ground change using the GEE and pre processed data products?
-Explict methods 
-- Forest cover calculation
-A reletive measure is needed to easily compare areas. Aggregate loss every year relative to 2000 forest cover. 
 
+How I processed the hansen data. 
 
-
-Forest gain is only measured up to 2013. Give an aggregate loss:gain ratio for 2000 - 2013 to indicate level of net change distubance. Not much land abandoment I think in this region. 
+Forest gain is only measured up to 2013. I will give an aggregate loss:gain ratio for 2000 - 2013 to indicate level of net change distubance. Not much land abandoment I think in this region. 
 
 Percentage regrowth is also needed to interpreate results. Regrowth would happen for natraul area distubance from 2000 to ~2005. This can be interpretaded as the amound of loss which is natural. This would assume that all human disturbance was permanent. (Is this needed? If forest is lost, no matter if it regrows, it still counts as loss of suitable habitat for red pandas from 2000-2018.)
 ####Global Forest Change Dataset
 
 ### 2.3 Data processing
 ####Forest Change 
-####Sub population
+Hansen does not detect a reduction in %treecover unless it is from treecover -> no treecover. For example, a decrease in canopy cover from 90% to 5% would not be detected. Small scale deforestation is underestimated. 
+
+User accuracy is very high for Hansen dataset but it vastly underestiamtes the area of deforestation in areas with selective felling (ed mitchard validation of hansen paper). Comparing relative changes is the most appropriate way of displaying the data. However, to do this I have to assume the type of deforestation (small and selective, with other moderate sized patches of clearfell) is consistet across the entire range. I think it is reasonable to assume this as all sites are mountainous and felling is done for firewood, and small areas of patsure. Forest loss from natural fires should be consitent across the range too. 
+
+Any vegetation >5m is a forest. This is sometimes problematic with tea platations in the region. 
+
+Spatial fedelity with the location of defrestation is preserved even with these caveats. Assuming all panda habitat is changing due to the same pressures, reletive meausres of comparison (i.e %'s) are justified and useful. In summary: Hansen can reliably show where loss is occuring, but underestimates how much loss is occuring, especialy in panda habitat due to the nature of deforestation practices. 
+
+Need to consider forest gain as well. Only data from 2000-2013 aggregated. Gain error is specific to gain. Give ratio to loss 2000-2013. Compare 'remote and intact forest' sample sites to gauge what the natural(neutral/background?) level of loss and gain is. 
+
+Possibility of gain and loss pixels: Only pathway with my methods:
+Forest -> loss pixel -> gainpixel ONLY.
+I mask my map with >25% treecover so no gain can be from previously unforested land unless it was cut down and regrown within 2000->2013. 
+I do not consider regrowth from non-forest land beacuse red pandas require mature forests with a developed understory. This is unlikly to occur between 2000 and 2018 in this slow growing region.
+
+There could be previously clear forest before 2000 that is regenerating. My methods do not detect this. The data is insufficent to isolate plantation regrowth vs natural. However, it is assumed that treecover2000 represents primary forest. Some of the treecover2000 layer will have been planted but due to the remoteness and recent human epansion to the region it is assumed that the vast majority of forest present in 2000 will be primary.  
+
 ### 2.4 Data analysis
+My data does not have sampling error. The output is an absolute count of a region. To get the error for my measurments I have to use the prestated error in the hansen paper and other papers that have used this dataset. 
 
+It is important we know how reliable Hansen is in specific ecosytems. A paper quanifiyes this for my study area (useful!)
+Two aspects to Hansen error.
 
-### Google Earth Engine 
+1 - How accuratly does hansen detect loss? i.e is a loss pixel acutally a loss pixel. Users Accuracy as defined with hansens calssification.
 
-### Data Analysis 
+2 - How much forest loss/gain area does hansen actually measure in the real world? It will miss any deforestation that is <30m2 in size. Also the hansen definition of forest will detect some vegetation that would no tbe considered forest, such as large tea plantations on slopes. 
+
+#### How I plan to do my stats
+I have forest loss over each year and a total accucmulated loss from 2018.
+
+I can run a simple lm to test if loss is increasing over time.
+ - This can be done without adding error terms? The error should be the same for every measurment
+ 
+I can run an ANOVA on the total accucmulated loss to compare loss between regions
+ - Anovas compare means between groups and require an error term for each mean. I can add a location specific user accuracy error term to each absolute measurment. This [paper](https://advances.sciencemag.org/content/2/4/e1501675.full) gives location specific error terms for my locations in the suplimentary material. User Accuracy is 89% for loss pixels. 
+ 
+ 
+For reporting the area of loss, I can give a reasonable estimate of how much forest loss is not detected using figures stated in other papers. 31.7% +/- 28.4% (95% CI) more loss that hansen estimate is reported by the tiger paper (Very similar results to another paper). They compared hansen stated loss with a visual assessment of loss from 2.4m resolution imagery in Tiger habitat that overlaps with Red Panda habitat. So I can bump up my loss estimates by 31.7% and add +/- 28.4%.
 
 ## Results
 ### RQ1: How is the area of red panda habitat changing?
 #### Hypothesis 1 : The area of red panda habitat will have decreased by over 5% from 2000 to 2018.
-![firstgraph](./Rplot.jpeg)
+![](./country_loss.png)
 
+
+#### H2: Low suitability habitat will show 5% more forest loss than moderate and core suitability classes.
+![](./Rplot.jpeg)
 Moderate and Core habitat has lost ~ 12% of habitat from 2000 to 2018.
-
 #### Gain loss ratio table for the above figure for 2000 - 2013:
 
 | Low Suitablility| Moderate Suitability  | Core Suitability |
@@ -115,20 +151,17 @@ Moderate and Core habitat has lost ~ 12% of habitat from 2000 to 2018.
 ### RQ 2: Do protected areas conserve red panda habitat?
 
 ![secondgraph](./pa_vs_all_habitat.png)
+or
+![](./example_pa.jpg)
+
 
 #### Hypothesis 1
 <image of example figure>
 
 ### RQ 3: Where is habitat changing
-#Where are the hotspots of habitat loss?
-![thirdgraph](./range_loss.png)
+#Where are the hotspots and coldspots of habitat loss?
+![thirdgraph](./map.png)
 
-#Where is the least disturbed habitat? 
-![](./low_disturbance.png)
-even low levels of loss can impact pandas due to fragmentation and disturbance.
-Low disturbance map too? It could be inferred as less fragmented habitat?
-
-I can use a colour ramp to merge both of these figures. Showing in one colour the least distrubed areas, then using a normal heatmap for the rest of the areas
 ## Discussion 
 
 #### How is Red Panda Habitat changing?
