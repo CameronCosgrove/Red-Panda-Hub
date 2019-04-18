@@ -5,7 +5,7 @@
 
 (rough outline)
 
-Habitat loss has consistently been identified as the largest threat facing the endangered red panda. The species' low dispersal capabilities, arboreal lifestyle, and narrow distribution also make red pandas particularly susceptible to reproductive isolation cause by habitat fragmentation. For the first time, this dissertation quantifies the extent of habitat loss across the red pandas entire range, and maps the areas of low and high habitat habitat distubance. My results estimate an area of XXX km2 of forest habitat has been lost since 2000 - 2018. The XXX area and the YYY area show the most pronounced forest loss. No countries show a net increase in forest from 2000 - 2012 in red panda habitat. Protected areas sufficiently/insufficiently protect forest. Habitats at lower elevation show the highest amount of habitat loss, which correlates with higer human population. The forest network in red panda habitat is likely fragmented into 3 isolated populations, with X habitat bottlenecks experiencing moderate to high distubance. The conservation implications of this work are...
+Habitat loss has consistently been identified as the largest threat facing the endangered red panda. The species' low dispersal capabilities, arboreal lifestyle, and narrow distribution also make red pandas particularly susceptible to reproductive isolation cause by habitat fragmentation. For the first time, this dissertation quantifies the extent of habitat loss across the red pandas entire range, and maps the areas of low and high habitat disturbance. My results estimate an area of XXX km2 of forest habitat has been lost since 2000 - 2018. The XXX area and the YYY area show the most pronounced forest loss. No countries show a net increase in forest from 2000 - 2012 in red panda habitat. Protected areas sufficiently/insufficiently protect forest. Habitats at lower elevation show the highest amount of habitat loss, which correlates with higher human population. The forest network in red panda habitat is likely fragmented into 3 isolated populations, with X habitat bottlenecks experiencing moderate to high disturbance. The conservation implications of this work are...
 
 # Contents Page
 ####Summary
@@ -127,7 +127,7 @@ I can run a simple lm to test if loss is increasing over time.
  - This can be done without adding error terms? The error should be the same for every measurment
  
 I can run an ANOVA on the total accucmulated loss to compare loss between regions
- - Anovas compare means between groups and require an error term for each mean. I can add a location specific user accuracy error term to each absolute measurment. This [paper](https://advances.sciencemag.org/content/2/4/e1501675.full) gives location specific error terms for my locations in the suplimentary material. User Accuracy is 89% for loss pixels. 
+ - Anovas compare means between groups and require an error term for each mean. I can add a location specific user accuracy error term to each absolute measurment. This [paper](https://advances.sciencemag.org/content/2/4/e1501675.full) gives location specific error terms for my locations in the supplementary  material. User Accuracy is 89% for loss pixels. 
  
  
 For reporting the area of loss, I can give a reasonable estimate of how much forest loss is not detected using figures stated in other papers. 31.7% +/- 28.4% (95% CI) more loss that hansen estimate is reported by the tiger paper (Very similar results to another paper). They compared hansen stated loss with a visual assessment of loss from 2.4m resolution imagery in Tiger habitat that overlaps with Red Panda habitat. So I can bump up my loss estimates by 31.7% and add +/- 28.4%.
@@ -141,26 +141,28 @@ For reporting the area of loss, I can give a reasonable estimate of how much for
 #### H2: Low suitability habitat will show 5% more forest loss than moderate and core suitability classes.
 ![](./Rplot.jpeg)
 Moderate and Core habitat has lost ~ 12% of habitat from 2000 to 2018.
+
 #### Gain loss ratio table for the above figure for 2000 - 2013:
 
-| Low Suitablility| Moderate Suitability  | Core Suitability |
+| Low Suitability| Moderate Suitability  | Core Suitability |
 | ------------- |-------------| -----|
 | 0.14     | 0.30 | 0.29 |
+
+#### H3: More habitat will be lost at lower elevations
+
+![](./elevation.png)
 
 
 ### RQ 2: Do protected areas conserve red panda habitat?
 
-![secondgraph](./pa_vs_all_habitat.png)
+![](./pa_vs_all_habitat.png)
 or
 ![](./example_pa.jpg)
 
 
-#### Hypothesis 1
-<image of example figure>
 
-### RQ 3: Where is habitat changing
-#Where are the hotspots and coldspots of habitat loss?
-![thirdgraph](./map.png)
+####Where are the hotspots and coldspots of habitat loss?
+![](./map.png)
 
 ## Discussion 
 
