@@ -58,21 +58,30 @@ GEE - Google Earth Engine
 ### 1.2 Threats and current conservation efforts 
 ### 1.3 Project Rationale 
 ### 1.4 Research questions and hypotheses
-####RQ1: How is the area of red panda habitat changing?
 
-H1: The area of red panda habitat will have decreased by over 5% from 2000 to 2018 across its entire range.
+(Forest Loss within the range not Habitat loss)
+
+####RQ1: How is the area of red panda habitat changing?
+(switch to present test) Make into hypotheiis and not preidiction 
+
+Sizeable amount preidcted
+Large amount predicted for my hypotheis I have chosen 10% loss 
+DIRECTION
+H1: The area of red panda habitat has decreased by 5% from 2000 to 2018 across its entire range.
 
 H10: There is less than 5% forest loss in the area of red panda habitat from 2000 to 2018.
 
 H2: Low suitability habitat will show 5% more forest loss than moderate and core suitability classes.
+-merge-
+H2: More habitat will be lost at lower elevations (Should I drop this?)
 
-H3: More habitat will be lost at lower elevations (Should I drop this?)
+####RQ2: Is forest loss less in protected areas
 
-####RQ2: Do protected areas conserve red panda habitat? 
+H1: The magnitude and rate of red panda forest loss will be less in protected areas with the higher IUCN rating (find protected name exactly).
 
-H1: The magnitude and rate of red panda habitat loss will be less in protected areas with the higer IUCN rating.
-
-
+#### Prediction Paragraph (or intergrated in with above) 
+MAGNITUDE 
+If I find X result then this will mean, but I find Y then this will mean 
 
 # Methods 
 ### 2.1 Defining the study area
