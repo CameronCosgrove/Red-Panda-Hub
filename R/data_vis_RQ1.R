@@ -20,55 +20,51 @@ library(ggplot2)
 library(readr)
 library(gridExtra)
 
+
 #### Input data and make a data frame ####
 Year <- c(2001:2018)
-l_loss <- c(1.427090017,	1.035702972,	0.5674293525,	3.738315922,	1.94664912,	2.929340464,
-          3.724295709,	4.544881004,	1.882976783,	3.430158376,	3.33732629,	1.956030896,
-          3.271632595,	5.621536099,	5.94028808,	6.395344242,	6.164168121,	3.97737037)
-m_loss <- c(4.873361586, 3.421097485, 1.652784656, 5.269099402, 3.302171072,
-           5.384272028, 5.354152532,	9.352939322, 3.638897778,	7.953403538,
-           4.837613426,	6.21809593,	11.0628342, 15.84096517,	18.48179334,
-           18.32826639,	19.37272264,	16.50837556)
-c_loss <- c(0.6161667506, 0.4917,	0.234,	0.707,	0.707,
-            1.022,	0.903,	1.16,	0.482,	0.639,
-            0.562,	0.463,	1.007,	1.310630,	2.0387,
-            2.402,	1.592,	1.11)
-
-
-loss_data_test <- data.frame(Year, l_loss, m_loss, c_loss)
-loss_data_test
+nepal_gain <- 9.24
+nepal_treecover <- 13934.22
+nepal_loss <- c(2.559335104,	2.667599036,	5.926754595,	4.490490745,	5.821683786,	5.739870572,	6.875078657,	3.364418914,	12.525476,	3.56764509,	2.237395965,	9.387846205,	1.115411371,	1.489671842,	3.752692236,	5.630841002,	10.70599577,	4.517010614)
+india_gain <-52.87
+india_treecover <-29411.6
+india_loss <- c(16.85720014,	13.29837125	,13.00672213,	22.33217587	,18.40466614,	20.22432114,	29.54191728,	26.67453272,	17.00848408,	20.92708779,	15.52936119,	16.92811712,	18.66403816,	26.1458632,	27.22413093,	34.28782186,	52.08685438,	33.72982733)
+bhutan_gain <- 4.74
+bhutan_treecover <- 11066.73
+bhutan_loss<- c(0.8353046843,	0.9577895593,	1.404081816,	3.984356069,	3.71078244,	3.359286256,	1.977622369,	2.34894297,	4.303208189,	20.48741514,	2.978873587,	1.53122877,	1.09462829,	2.606706952,	2.059110023,	7.222615429,	8.469527001,	3.127026544)
+burma_gain <- 89.115
+burma_treecover <- 19017.723
+burma_loss <- c(5.035765532,	7.550812792,	5.442634487,	16.01660513,	8.098995089,	12.99401878,	14.69998513,	11.68060962,	24.1071898,	16.44055283,	18.4873353,	26.90063435,	29.81116613,	21.68378103,	21.93754604,	26.6295307,	23.26260542,	12.26570447)
+loss_data <- data.frame(Year, nepal_loss, bhutan_loss, india_loss, burma_loss)
+loss_data
 
 #### Add percentage values for relative comparison ####
-percent_loss <- loss_data_test %>%
-  mutate(percent_loss_low = (l_loss/813.26)*100 ) %>%
-  mutate(percent_loss_medium = (m_loss/1351)*100 ) %>%
-  mutate(percent_loss_core = (c_loss/147)*100) %>%
-  mutate(percent_cumulative_low = cumsum(percent_loss_low)) %>%
-  mutate(percent_cumulative_medium = cumsum(percent_loss_medium)) %>%
-  mutate(percent_cumulative_core = cumsum(percent_loss_core)) %>%
-  mutate(total_cumulative_low = cumsum(l_loss)) %>%
-  mutate(total_cumulative_medium = cumsum(m_loss)) %>%
-  mutate(total_cumulative_core = cumsum(c_loss))
+percent_loss <- loss_data %>%
+  mutate(percent_loss_nepal = (nepal_loss/nepal_treecover)*100 ) %>%
+  mutate(percent_loss_india = (india_loss/india_treecover)*100 ) %>%
+  mutate(percent_loss_bhutan = (bhutan_loss/bhutan_treecover)*100) %>%
+  mutate(percent_loss_burma = (burma_loss/burma_treecover)*100) %>%
+  mutate(percent_cumulative_nepal = cumsum(percent_loss_nepal)) %>%
+  mutate(percent_cumulative_india = cumsum(percent_loss_india)) %>%
+  mutate(percent_cumulative_bhutan = cumsum(percent_loss_bhutan)) %>%
+  mutate(percent_cumulative_burma = cumsum(percent_loss_burma)) %>%
+  mutate(entire_range = ((nepal_loss +india_loss +bhutan_loss+burma_loss)/(nepal_treecover + india_treecover + bhutan_treecover + burma_treecover))*100) %>%
+  mutate(percent_cumulative_total = cumsum(entire_range))
 
-
-
+write.table(percent_loss, file="total_area_data.csv",sep=",",row.names=T)
 View(percent_loss) #looks good
 
 #### Reshape the data for visulisation. Tidy it all up. ####
-data_long <- gather(percent_loss, Treatment, measurement, l_loss:total_cumulative_core, factor_key=TRUE)
+data_long <- gather(percent_loss, Treatment, measurement, nepal_loss:percent_cumulative_total, factor_key=TRUE)
 View(data_long) #looks good 
 str(data_long)
 #### filter for the %data and the absolute value data####
 percent_data <- data_long %>%
-  filter(Treatment == "percent_loss_low" | Treatment == "percent_loss_medium" | Treatment == "percent_loss_core") %>%
+  filter(Treatment == "percent_loss_india" | Treatment == "percent_loss_nepal" | Treatment == "percent_loss_bhutan" | Treatment == "percent_loss_burma"| Treatment == "entire_range" ) %>%
   group_by(Treatment, measurement)
 
 
 
-absolute_data <- data_long %>%
-  filter(Treatment == "l_loss" | Treatment == "m_loss" | Treatment == "c_loss")
-
-red_panda_palett <- c("#b67a3e", "#cb9b74", "#f2e0d2", "#a45544", "	#5a1c1a") 
 
 #### Graphs ####
 
@@ -89,15 +85,16 @@ red_panda_palett <- c("#b67a3e", "#cb9b74", "#f2e0d2", "#a45544", "	#5a1c1a")
            xmin=c(2012), 
            xmax=c(2018), 
            ymin=c(0), 
-           ymax=c(1.7), 
+           ymax=c(0.3), 
            alpha=0.2, 
            fill="#a45544") +
   labs(title = "Percentage Forest Lost Per Year",
-       x = "Year") +
-  scale_colour_manual(values =c("#66CDAA", "#00B2EE", "#EE0000"),
-                      name="Habitat\nSuitability",
-                      breaks=c("percent_loss_low", "percent_loss_medium", "percent_loss_core"),
-                      labels=c("Low", "Medium", "High") ))
+       x = "Year",
+       y = "percent_loss") +
+  scale_colour_manual(values =c("#66CDAA", "#00B2EE", "#EE0000", "#000000", "#FF00FF"),
+                      name="country",
+                      breaks=c("percent_loss_nepal", "percent_loss_india", "percent_loss_bhutan", "percent_loss_burma", "entire_range"),
+                      labels=c("Nepal", "India", "Bhutan","Burma", 'entire range') )) 
 
 
 #Total area
@@ -130,7 +127,7 @@ red_panda_palett <- c("#b67a3e", "#cb9b74", "#f2e0d2", "#a45544", "	#5a1c1a")
 #Percentage
 
 cum_percent_data <- data_long %>%
-  filter(Treatment == "percent_cumulative_low" | Treatment == "percent_cumulative_medium" | Treatment == "percent_cumulative_core")
+  filter(Treatment == "percent_cumulative_nepal" | Treatment == "percent_cumulative_india" | Treatment == "percent_cumulative_bhutan"| Treatment == "percent_cumulative_burma"| Treatment == "percent_cumulative_total")
 
 (cum_percent_chart <- ggplot(cum_percent_data, 
                          aes(x=Year,
@@ -148,16 +145,16 @@ cum_percent_data <- data_long %>%
             xmin=c(2012), 
             xmax=c(2018), 
             ymin=c(0), 
-            ymax=c(12), 
+            ymax=c(2), 
             alpha=0.2, 
             fill="#a45544") +
    labs(title = "Cumulative Percentage Forest Loss",
         x = "Year", 
         y = "% forest loss") +
-   scale_colour_manual(values =c("#66CDAA", "#00B2EE", "#EE0000"),
-                       name="Habitat\nSuitability",
-                       breaks=c("percent_cumulative_low", "percent_cumulative_medium", "percent_cumulative_core"),
-                       labels=c("Low", "Medium", "High") ))
+   scale_colour_manual(values =c("#66CDAA", "#00B2EE", "#EE0000", "#000000", "#FF00FF"),
+                       name="Country",
+                       breaks=c("percent_cumulative_nepal", "percent_cumulative_india", "percent_cumulative_bhutan", "percent_cumulative_burma", "percent_cumulative_total"),
+                       labels=c("Nepal", "India", "Bhutan","Burma", 'entire range') )) 
 
 # total loss 
 cum_total_data <- data_long %>%
