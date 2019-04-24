@@ -35,7 +35,13 @@ bhutan_loss<- c(0.8353046843,	0.9577895593,	1.404081816,	3.984356069,	3.71078244
 burma_gain <- 89.115
 burma_treecover <- 19017.723
 burma_loss <- c(5.035765532,	7.550812792,	5.442634487,	16.01660513,	8.098995089,	12.99401878,	14.69998513,	11.68060962,	24.1071898,	16.44055283,	18.4873353,	26.90063435,	29.81116613,	21.68378103,	21.93754604,	26.6295307,	23.26260542,	12.26570447)
-loss_data <- data.frame(Year, nepal_loss, bhutan_loss, india_loss, burma_loss)
+china_fulgens_gain <- 34.33
+china_fulgens_treecover <- 37187.9
+china_fulgens_loss <- c(20.08413432,	22.46674665,	20.27366286,	30.73080507,	25.86094583,	56.55531042,	44.24541258,	30.4369143,	45.57692703,	28.64421245,	16.15988545,	30.41366952,	18.17085901,	15.05683519,	9.062010514,	45.75951509,	44.42173668,	16.26905059)
+china_styani_gain <- 38.5479
+china_styani_treecover <-  24262.622
+china_styani_loss <- c(5.898417729,	9.725619035,	3.440161424,	4.203390676,	16.08396715,	12.88292094,	14.65404204,	131.4677872,	39.54747806,	17.61399922,	26.69955445,	17.5789718,	7.139608087,	7.695306731,	4.497781104,	8.253705752,	8.973815036,	5.511382039)
+loss_data <- data.frame(Year, nepal_loss, bhutan_loss, india_loss, burma_loss, china_fulgens_loss, china_styani_loss)
 loss_data
 
 #### Add percentage values for relative comparison ####
@@ -44,11 +50,15 @@ percent_loss <- loss_data %>%
   mutate(percent_loss_india = (india_loss/india_treecover)*100 ) %>%
   mutate(percent_loss_bhutan = (bhutan_loss/bhutan_treecover)*100) %>%
   mutate(percent_loss_burma = (burma_loss/burma_treecover)*100) %>%
+  mutate(percent_loss_china_fulgens = (china_fulgens_loss/china_fulgens_treecover)*100)%>%
+  mutate(percent_loss_china_styani = (china_styani_loss/china_styani_treecover)*100)%>%
   mutate(percent_cumulative_nepal = cumsum(percent_loss_nepal)) %>%
   mutate(percent_cumulative_india = cumsum(percent_loss_india)) %>%
   mutate(percent_cumulative_bhutan = cumsum(percent_loss_bhutan)) %>%
   mutate(percent_cumulative_burma = cumsum(percent_loss_burma)) %>%
-  mutate(entire_range = ((nepal_loss +india_loss +bhutan_loss+burma_loss)/(nepal_treecover + india_treecover + bhutan_treecover + burma_treecover))*100) %>%
+  mutate(percent_cumulative_china_fulgens = cumsum(percent_loss_china_fulgens)) %>%
+  mutate(percent_cumulative_china_styani = cumsum(percent_loss_china_styani)) %>%
+  mutate(entire_range = ((nepal_loss +india_loss +bhutan_loss+burma_loss+china_fulgens_loss+china_styani_loss)/(nepal_treecover + india_treecover + bhutan_treecover + burma_treecover + china_fulgens_treecover + china_styani_treecover))*100) %>%
   mutate(percent_cumulative_total = cumsum(entire_range))
 
 write.table(percent_loss, file="total_area_data.csv",sep=",",row.names=T)
@@ -60,41 +70,58 @@ View(data_long) #looks good
 str(data_long)
 #### filter for the %data and the absolute value data####
 percent_data <- data_long %>%
-  filter(Treatment == "percent_loss_india" | Treatment == "percent_loss_nepal" | Treatment == "percent_loss_bhutan" | Treatment == "percent_loss_burma"| Treatment == "entire_range" ) %>%
+  filter(Treatment == "percent_loss_india" | Treatment == "percent_loss_nepal" | Treatment == "percent_loss_bhutan" | Treatment == "percent_loss_burma"| Treatment == "percent_loss_china_fulgens" | Treatment == "percent_loss_china_styani" | Treatment == "entire_range") %>%
   group_by(Treatment, measurement)
-
-
-
-
+percent_entire_data <- data_long %>%
+  filter(Treatment == "entire_range")
 #### Graphs ####
 
+colour_theme <- c("#D43B3534", "#8D37FC52", "#18D9C667", "#D9E0196F", "#45FF5145", "#FF970557", '#BB00FF')
+
+
 #Percentage
-(percent_chart <- ggplot(percent_data, 
+ggplot(percent_data, 
                          aes(x=Year,
                          y= (measurement),
                          group= Treatment)) +
   geom_line(stat="identity",
             aes(col=Treatment),
             show.legend = T,
-            size = 1) +
-  theme_bw() + 
+            size = .5) +
   coord_cartesian(xlim = c(2001,2018), expand = F,
                   default = FALSE)+
+  scale_x_continuous(breaks = as.numeric(Year), labels = c("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11","12","13", "14", "15","16","17","18")) +
   #add a box showing where the hansen method is improved in detecting small forestry loss
   annotate("rect",
            xmin=c(2012), 
            xmax=c(2018), 
            ymin=c(0), 
-           ymax=c(0.3), 
+           ymax=c(0.6), 
            alpha=0.2, 
            fill="#a45544") +
-  labs(title = "Percentage Forest Lost Per Year",
-       x = "Year",
-       y = "percent_loss") +
-  scale_colour_manual(values =c("#66CDAA", "#00B2EE", "#EE0000", "#000000", "#FF00FF"),
-                      name="country",
-                      breaks=c("percent_loss_nepal", "percent_loss_india", "percent_loss_bhutan", "percent_loss_burma", "entire_range"),
-                      labels=c("Nepal", "India", "Bhutan","Burma", 'entire range') )) 
+  labs(title = " ",
+       x = "\n Year",
+       y = "% Forest Loss \n ") +
+  scale_colour_manual(values =c("#D43B3534", "#8D37FC52", "#18D9C667", "#D9E0196F", "#45FF5145", "#8C69086E", '#141414'),
+                      name="Country",
+                      breaks=c("entire_range","percent_loss_nepal", "percent_loss_india", "percent_loss_bhutan", "percent_loss_burma", "percent_loss_china_fulgens", "percent_loss_china_styani"),
+                      labels=c('Entire Range', "Nepal", "India", "Bhutan","Burma","China (A.Fulgens)", "China (A.Styani)")) +
+  geom_line(data = percent_entire_data, aes(color=name), color='#141414', size=1.4 ) +
+  theme(
+    panel.grid.major.x = element_blank(), # Vertical major grid lines
+    panel.grid.major.y = element_blank(), # Horizontal major grid lines
+    panel.grid.minor.x = element_blank(), # Vertical minor grid lines
+    panel.grid.minor.y = element_blank(),
+    axis.line = element_line(colour = "black"),
+    plot.background = element_rect(fill = "#FFFFFF"),
+    panel.background = element_rect(fill = "#FFFFFF"),
+    strip.background = element_rect(fill = "#FFFFFF"),
+    legend.key = element_rect(fill = "#FFFFFF")) 
+  
+  
+#theme(panel.grid.major  = element_blank(), panel.grid.minor = element_blank())
+
+# + geom_smooth(mapping = NULL, data = percent_entire_data, method = "lm")
 
 
 #Total area
@@ -127,64 +154,93 @@ percent_data <- data_long %>%
 #Percentage
 
 cum_percent_data <- data_long %>%
-  filter(Treatment == "percent_cumulative_nepal" | Treatment == "percent_cumulative_india" | Treatment == "percent_cumulative_bhutan"| Treatment == "percent_cumulative_burma"| Treatment == "percent_cumulative_total")
-
-(cum_percent_chart <- ggplot(cum_percent_data, 
+  filter(Treatment == "percent_cumulative_nepal" | Treatment == "percent_cumulative_india" | Treatment == "percent_cumulative_bhutan"| Treatment == "percent_cumulative_burma"| Treatment == "percent_cumulative_china_fulgens"| Treatment == "percent_cumulative_china_styani"| Treatment == "percent_cumulative_total")
+cum_percent_total <- data_long %>%
+  filter(Treatment == "percent_cumulative_total")
+ ggplot(cum_percent_data, 
                          aes(x=Year,
                              y= measurement,
                              group= Treatment)) +
    geom_line(stat="identity",
              aes(col=Treatment),
              show.legend = T,
-             size = 1) +
-   theme_bw() + 
-   coord_cartesian(xlim = c(2001,2018), expand = F,
-                   default = FALSE)+
-   #add a box showing where the hansen method is improved in detecting small forestry loss
-   annotate("rect",
-            xmin=c(2012), 
-            xmax=c(2018), 
-            ymin=c(0), 
-            ymax=c(2), 
-            alpha=0.2, 
-            fill="#a45544") +
-   labs(title = "Cumulative Percentage Forest Loss",
-        x = "Year", 
-        y = "% forest loss") +
-   scale_colour_manual(values =c("#66CDAA", "#00B2EE", "#EE0000", "#000000", "#FF00FF"),
-                       name="Country",
-                       breaks=c("percent_cumulative_nepal", "percent_cumulative_india", "percent_cumulative_bhutan", "percent_cumulative_burma", "percent_cumulative_total"),
-                       labels=c("Nepal", "India", "Bhutan","Burma", 'entire range') )) 
-
-# total loss 
-cum_total_data <- data_long %>%
-  filter(Treatment == "total_cumulative_low" | Treatment == "total_cumulative_medium" | Treatment == "total_cumulative_core")
-
-(cum_total_chart <- ggplot(cum_total_data, 
-                             aes(x=Year,
-                                 y= measurement,
-                                 group= Treatment)) +
+             size = 1)  +
     geom_line(stat="identity",
               aes(col=Treatment),
-              show.legend = F,
+              show.legend = T,
               size = 1) +
-    theme_bw() + 
     coord_cartesian(xlim = c(2001,2018), expand = F,
                     default = FALSE)+
+    scale_x_continuous(breaks = as.numeric(Year), labels = c("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11","12","13", "14", "15","16","17","18")) +
     #add a box showing where the hansen method is improved in detecting small forestry loss
     annotate("rect",
              xmin=c(2012), 
              xmax=c(2018), 
              ymin=c(0), 
-             ymax=c(160), 
+             ymax=c(1.7), 
              alpha=0.2, 
              fill="#a45544") +
-    labs(title = "Cumulative Area of Forest Loss",
-         y = expression(km^{2}~forest~loss)) +
-    scale_colour_manual(values =c("#66CDAA", "#00B2EE", "#EE0000"),
-                        name="Habitat\nSuitability",
-                        breaks=c("total_cumulative_low", "total_cumulative_medium", "total_cumulative_core"),
-                        labels=c("Low", "Medium", "High") ))
+    labs(title = " ",
+         x = "\n Year",
+         y = "% Cumulative Forest Loss \n ") +
+    scale_colour_manual(values =c("#D43B3534", "#8D37FC52", "#18D9C667", "#D9E0196F", "#45FF5145", "#8C69086E", '#141414'),
+                        name="Country",
+                        breaks=c("percent_cumulative_total","percent_cumulative_nepal", "percent_cumulative_india", "percent_cumulative_bhutan", "percent_cumulative_burma", "percent_cumulative_china_fulgens", "percent_cumulative_china_styani"),
+                        labels=c('Entire Range', "Nepal", "India", "Bhutan","Burma","China (A.Fulgens)", "China (A.Styani)")) +
+    geom_line(data = cum_percent_total, aes(color=name), color='#141414', size=1.4 ) +
+    theme(
+      panel.grid.major.x = element_blank(), # Vertical major grid lines
+      panel.grid.major.y = element_blank(), # Horizontal major grid lines
+      panel.grid.minor.x = element_blank(), # Vertical minor grid lines
+      panel.grid.minor.y = element_blank(),
+      axis.line = element_line(colour = "black"),
+      plot.background = element_rect(fill = "#FFFFFF"),
+      panel.background = element_rect(fill = "#FFFFFF"),
+      strip.background = element_rect(fill = "#FFFFFF"),
+      legend.key = element_rect(fill = "#FFFFFF")) 
+  
+# total loss 
+cum_total_data <- data_long %>%
+  filter(Treatment == "total_cumulative_low" | Treatment == "total_cumulative_medium" | Treatment == "total_cumulative_core")
+
+ggplot(cum_total_data, 
+                             aes(x=Year,
+                                 y= measurement,
+                                 group= Treatment)) +
+  geom_line(stat="identity",
+            aes(col=Treatment),
+            show.legend = T,
+            size = 1) +
+  coord_cartesian(xlim = c(2001,2018), expand = F,
+                  default = FALSE)+
+  scale_x_continuous(breaks = as.numeric(Year), labels = c("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11","12","13", "14", "15","16","17","18")) +
+  #add a box showing where the hansen method is improved in detecting small forestry loss
+  annotate("rect",
+           xmin=c(2012), 
+           xmax=c(2018), 
+           ymin=c(0), 
+           ymax=c(0.6), 
+           alpha=0.2, 
+           fill="#a45544") +
+  labs(title = " ",
+       x = "\n Year",
+       y = "% Forest loss \n ") +
+  scale_colour_manual(values =c("#D43B3534", "#8D37FC52", "#18D9C667", "#D9E0196F", "#45FF5145", "#8C69086E", '#141414'),
+                      name="Country",
+                      breaks=c("entire_range","percent_loss_nepal", "percent_loss_india", "percent_loss_bhutan", "percent_loss_burma", "percent_loss_china_fulgens", "percent_loss_china_styani"),
+                      labels=c('Entire Range', "Nepal", "India", "Bhutan","Burma","China (A.Fulgens)", "China (A.Styani)")) +
+  geom_line(data = percent_entire_data, aes(color=name), color='#141414', size=1.4 ) +
+  theme(
+    panel.grid.major.x = element_blank(), # Vertical major grid lines
+    panel.grid.major.y = element_blank(), # Horizontal major grid lines
+    panel.grid.minor.x = element_blank(), # Vertical minor grid lines
+    panel.grid.minor.y = element_blank(),
+    axis.line = element_line(colour = "black"),
+    plot.background = element_rect(fill = "#FFFFFF"),
+    panel.background = element_rect(fill = "#FFFFFF"),
+    strip.background = element_rect(fill = "#FFFFFF"),
+    legend.key = element_rect(fill = "#FFFFFF")) 
+
 
 
 
