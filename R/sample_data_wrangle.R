@@ -7,7 +7,7 @@ library(ggeffects)
 library(stargazer)
 library(nlme)
 library(multcompView)
-
+library(pgirmess)
 
 raw_sample_data <- read_csv('R/final_data_2.csv')
 
@@ -66,10 +66,27 @@ total_average_loss <- data.frame(avg_total_sample_loss,avg_total_sample_se)
 #### Models ####
 
 # Elevation 
-elevation.m <- lm(percent_loss ~ elevation, data = filtered)
-summary(elvation.m)
+elevation.m <- lmer(percent_loss ~ elevation + (1|longtitude), data = filtered)
+
+wilcox.test(filtered$percent_loss, filtered$elevation, paired = F)
+library(mblm)
+
+model.k = mblm(percent_loss ~ elevation, data = filtered)
+
+summary(model.k)
+
+
+summary(np.elevation.m)
+plot(np.elevation.m)
+
+
+anova.lme(elevation.m)
+
+qqnorm(resid(elevation.m))
+gvlma::gvlma(elevation.m)
 
 test.gp <- as.data.frame(ggpredict(elevation.m))
+mod <- lm(dist ~ speed, data=cars)
 
 
 
@@ -84,6 +101,7 @@ stargazer(country.m, type = "text",
 
 #IUCN
 iucn.m <- glm(percent_loss ~ iucn, data = filtered)
+
 
 
 iucn.aov <- aov(iucn.m)
@@ -200,13 +218,13 @@ ggplot(filtered, aes(x= country, y = averagecountry)) +
 
 
 #elevation woth simple model
+library(ggpubr)
+
 ggplot(test.gp, aes(x= elevation.x, y = elevation.predicted)) +
   geom_point(data = filtered, aes(x = elevation, y = percent_loss, color = 'red'), space=0.04, font.axis=2, size = 0.01) +
-  geom_line() +
-  geom_ribbon(aes(ymin = elevation.conf.low, ymax = elevation.conf.high), alpha = .1) +
   labs(title = " ",
        x = "\n Elevation",
-       y = "% Forest Loss \n (log10)") +
+       y = "% Forest Loss \n") +
   theme(
     panel.grid.major.x = element_blank(), # Vertical major grid lines
     panel.grid.major.y = element_blank(), # Horizontal major grid lines
@@ -218,10 +236,10 @@ ggplot(test.gp, aes(x= elevation.x, y = elevation.predicted)) +
     panel.background = element_rect(fill = "#FFFFFF"),
     strip.background = element_rect(fill = "#FFFFFF"),
     legend.key = element_rect(fill = "#FFFFFF")) +
-    scale_y_log10()
+    scale_y_log10()+
+    coord_cartesian(ylim = c(0,100))
 
-
-plot(filtered$Country, filtered$Habitat_class)
+ggExtra::ggMarginal(p, type = "density", color="grey")
 
 ggplot(filtered, aes(x=Country, fill=Habitat_class)) +
     geom_bar(stat="identity", position="dodge") 

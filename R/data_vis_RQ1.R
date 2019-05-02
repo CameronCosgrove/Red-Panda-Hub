@@ -60,6 +60,7 @@ percent_loss <- loss_data %>%
   mutate(percent_cumulative_china_fulgens = cumsum(percent_loss_china_fulgens)) %>%
   mutate(percent_cumulative_china_styani = cumsum(percent_loss_china_styani)) %>%
   mutate(percent_gain = ((nepal_gain + bhutan_gain +burma_gain + china_fulgens_gain +china_styani_gain +india_gain)/(nepal_treecover + india_treecover + bhutan_treecover + burma_treecover + china_fulgens_treecover + china_styani_treecover))*100)%>%
+  mutate(total_area_of_habitat = (nepal_treecover + india_treecover + bhutan_treecover + burma_treecover + china_fulgens_treecover + china_styani_treecover)) %>%
   mutate(entire_range = ((nepal_loss +india_loss +bhutan_loss+burma_loss+china_fulgens_loss+china_styani_loss)/(nepal_treecover + india_treecover + bhutan_treecover + burma_treecover + china_fulgens_treecover + china_styani_treecover))*100) %>%
   mutate(percent_cumulative_total = cumsum(entire_range))
 
@@ -186,16 +187,60 @@ View(data.frame(low_ratio, moderate_ratio, core_ratio))
 #filter data
 lm_data <- data_long %>%
   filter(Treatment == "entire_range") %>%
-  mutate(log_loss = log10(measurement))
+  mutate(log_loss = log10(measurement)) %>%
+  mutate(year_factor = Year)
 str(lm_data)
 #Check distrubution. Does a transformation look nessesary? If so add to pipe above
-ggplot(lm_data, aes(x = Year, y = log_loss)) + geom_line()
+ggplot(lm_data, aes(x = Year, y = measurement)) + geom_line()
 
-#run models 
+#### Measurement ~ Year ####
+lm_data$Year <- as.integer(lm_data$Year)
 is_loss_increasing_lm <- lm(measurement ~ Year, data = lm_data)
+summary(is_loss_increasing_lm)
+plot(is_loss_increasing_lm)
+
+nepal_data <- data_long %>%
+  filter(Treatment == "percent_loss_nepal")
+str(nepal_data)
+nepal_lm <- lm(measurement ~ Year, data = nepal_data)
+summary(nepal_lm)
+
+bhutan_data <- data_long %>%
+  filter(Treatment == "percent_loss_bhutan")
+str(bhutan_data)
+bhutan_lm <- lm(measurement ~ Year, data = bhutan_data)
+summary(bhutan_lm)
+
+
+india_data <- data_long %>%
+  filter(Treatment == "percent_loss_india")
+str(india_data)
+india_lm <- lm(measurement ~ Year, data = india_data) #significant
+summary(india_lm)
+
+burma_data <- data_long %>%
+  filter(Treatment == "percent_loss_burma")
+str(burma_data)
+burma_lm <- lm(measurement ~ Year, data = burma_data)#significant
+summary(burma_lm)
+
+china_fulgens_data <- data_long %>%
+  filter(Treatment == "percent_loss_china_fulgens")
+str(china_fulgens_data)
+china_fulgens_lm <- lm(measurement ~ Year, data = china_fulgens_data)#significant
+summary(china_fulgens_lm)
+
+china_styani_data <- data_long %>%
+  filter(Treatment == "percent_loss_china_styani")
+str(china_styani_data)
+china_styani_lm <- lm(measurement ~ Year, data = china_styani_data)#significant
+summary(china_styani_lm)
+
 log_is_loss_increasing_lm <- lm(log_loss ~ Year, data = lm_data)
 
-cor.test(lm_data$log_loss, lm_data$Year)
+summary(log_is_loss_increasing_lm)
+plot(log_is_loss_increasing_lm)
+cor.test(lm_data$measurement, lm_data$Year)
 
 summary(is_loss_increasing_lm)
 summary(log_is_loss_increasing_lm)
