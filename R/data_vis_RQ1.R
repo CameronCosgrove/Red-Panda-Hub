@@ -90,10 +90,10 @@ ggplot(percent_data,
   geom_line(stat="identity",
             aes(col=Treatment),
             show.legend = T,
-            size = .5) +
+            size = 1) +
   coord_cartesian(xlim = c(2001,2018), expand = F,
                   default = FALSE)+
-  geom_smooth(data = percent_entire_data, method = lm, colour = "#7D7D7D", size = .5, fill = "#F0F0F0", alpha = 0.6) +
+  geom_smooth(data = percent_entire_data, method = lm, colour = "#7D7D7D", size = .5, fill = "#ADADADCE", alpha = 0.6) +
   scale_x_continuous(breaks = as.numeric(Year), labels = c("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11","12","13", "14", "15","16","17","18")) +
   #add a box showing where the hansen method is improved in detecting small forestry loss
  
@@ -104,7 +104,7 @@ ggplot(percent_data,
                       name="Country",
                       breaks=c("entire_range","percent_loss_nepal", "percent_loss_india", "percent_loss_bhutan", "percent_loss_burma", "percent_loss_china_fulgens", "percent_loss_china_styani"),
                       labels=c('Entire Range', "Nepal", "India", "Bhutan","Burma","China (A.Fulgens)", "China (A.Styani)")) +
-  geom_line(data = percent_entire_data, aes(color=name), color='#141414', size=1.4 ) + 
+  geom_line(data = percent_entire_data, aes(color=name), color='#141414', size=1.7 ) + 
   theme(
     panel.grid.major.x = element_blank(), # Vertical major grid lines
     panel.grid.major.y = element_blank(), # Horizontal major grid lines
@@ -139,13 +139,11 @@ ggplot(cum_percent_data,
    geom_line(stat="identity",
              aes(col=Treatment),
              show.legend = T,
-             size = .5)  +
+             size = 1)  +
     coord_cartesian(xlim = c(2001,2018), expand = F,
                     default = FALSE)+
     scale_x_continuous(breaks = as.numeric(Year), labels = c("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11","12","13", "14", "15","16","17","18")) +
     #add a box showing where the hansen method is improved in detecting small forestry loss
-   
-  
     labs(title = " ",
          x = "\n Year",
          y = "% Cumulative Forest Loss \n ") +
@@ -153,8 +151,7 @@ ggplot(cum_percent_data,
                         name="Country",
                         breaks=c("percent_cumulative_total","percent_cumulative_nepal", "percent_cumulative_india", "percent_cumulative_bhutan", "percent_cumulative_burma", "percent_cumulative_china_fulgens", "percent_cumulative_china_styani"),
                         labels=c('Entire Range', "Nepal", "India", "Bhutan","Burma","China (A.Fulgens)", "China (A.Styani)")) +
-    geom_line(data = cum_percent_total, aes(color=name), color='#141414', size=1.4 ) +
-   annotate("pointrange", x = 2013, y = 0.1696631, ymin = 0.1696631, ymax = 0.1696631, colour = "green", size = .5, shape = 3)+
+    geom_line(data = cum_percent_total, aes(color=name), color='#141414', size=1.7 ) +
     theme(
       panel.grid.major.x = element_blank(), # Vertical major grid lines
       panel.grid.major.y = element_blank(), # Horizontal major grid lines

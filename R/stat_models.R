@@ -60,7 +60,26 @@ log_tidy_data$percent_loss <- as.numeric(log_tidy_data$percent_loss)
 
 str(log_tidy_data)
 log_reg <- lm(percent_loss ~ elevation, data = log_tidy_data, family = binomial)
-plot(effect("elevation", log_reg))
+summary(log_reg)
+ggplot(log_tidy_data, aes(x=elevation, y=percent_loss)) + 
+  geom_point(position=position_jitter(width=.05,height=.01), color="#000000", size=2, alpha=0.02) + 
+  stat_smooth(method="glm", method.args=list(family="binomial"), se=T, colour = "Black") +
+  labs(title = " ",
+       x = "\n Elevation",
+       y = "Probability of Forest Loss \n") +
+  theme(
+    panel.grid.major.x = element_blank(), # Vertical major grid lines
+    panel.grid.major.y = element_blank(), # Horizontal major grid lines
+    panel.grid.minor.x = element_blank(), # Vertical minor grid lines
+    panel.grid.minor.y = element_blank(),
+    panel.border= element_blank(),
+    axis.line = element_line(colour = "black"),
+    plot.background = element_rect(fill = "#FFFFFF"),
+    panel.background = element_rect(fill = "#FFFFFF"),
+    strip.background = element_rect(fill = "#FFFFFF"),
+    legend.key = element_rect(fill = "#FFFFFF")) 
+
+
 
 stargazer(log_reg, type = "text",
           digits = 3,
@@ -98,6 +117,9 @@ iucn_filter_small <- iucn_fiter[samplwe(1:nrow(iucn_fiter), 170,
                                         replace=FALSE),]
 
 write.table(iucn_filter_small, file="170_none.csv",sep=",",row.names=F)
+
+
+
 # Import new data set
 iucn_data <-  read_csv("data_for_IUCN_areas.csv")
 View(iucn_data)
@@ -140,7 +162,12 @@ ggplot(iucn_graph , aes(x= iucn, y = averagerating)) +
     strip.background = element_rect(fill = "#FFFFFF"),
     legend.key = element_rect(fill = "#FFFFFF")) 
 
+iucn_lenght<-iucn_data %>%
+  group_by(iucn)%>%
+  mutate(n_iucn = length(iucn))
 
+
+unique(iucn_lenght$n_iucn)  
 
 kruskal.test(percent_loss ~ iucn, data = iucn_data)
 kruskalmc(percent_loss ~ iucn, data = iucn_data)
@@ -165,3 +192,10 @@ unique(tidy_data$n_country)
 #### Habitat Class ####
 kruskalmc(percent_loss ~ habitat_class, data = tidy_data)
 kruskal.test(percent_loss ~ habitat_class, data = tidy_data)
+
+class_lenght<-tidy_data %>%
+  group_by(habitat_class)%>%
+  mutate(n_class = length(habitat_class))
+
+
+unique(class_lenght$n_class) 

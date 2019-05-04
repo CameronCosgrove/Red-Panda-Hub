@@ -236,8 +236,8 @@ ggplot(test.gp, aes(x= elevation.x, y = elevation.predicted)) +
     panel.background = element_rect(fill = "#FFFFFF"),
     strip.background = element_rect(fill = "#FFFFFF"),
     legend.key = element_rect(fill = "#FFFFFF")) +
-    scale_y_log10()+
-    coord_cartesian(ylim = c(0,100))
+    coord_cartesian(ylim = c(0,100)) +
+  geom_smooth(method = )
 
 ggExtra::ggMarginal(p, type = "density", color="grey")
 
