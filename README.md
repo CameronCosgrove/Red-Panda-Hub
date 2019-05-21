@@ -8,9 +8,10 @@
 
 Repository structure:
 
-- [Draft dissertaion sections.](./dissertation_sections)
+- [Draft dissertaion sections.](./dissertation_transcripts)
+- [data.](./data)
 - [Google Earth Engine code and files.](./google_earth_engine)
-- [R code (models, data manipulation, data visulisation)](./R)
+- [R code (models, data manipulation, data visulisation)](./R_scripts)
 - [Images](./images)
 
 
@@ -20,6 +21,3 @@ Repository structure:
 
 More info on the project will eventually be found on my [website](https://cameroncosgrove.github.io/).
 
-First Data for Indian panda habitat
-
-![firstdata](./images/Example_Figure.jpeg)
