@@ -4,7 +4,7 @@
 
 <img src="/images/panda logo.png" alt="image credit: Ivy Oswald " align="right" width="300" hight="400">
 
-#### This is my repo for my 4th year dissertation project at the University of Edinburgh. This repo currently functions as a place to store and back up my work. Once the dissertation is complete the repo will be made public and will hold the final dissertaion, code, and materials used. 
+#### This is my repo for my 4th year dissertation project at the University of Edinburgh. This repo currently functions as a place to store and back up my work. It holds the final dissertaion, code, and materials used. 
 
 Repository structure:
 
